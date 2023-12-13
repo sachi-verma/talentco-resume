@@ -1,2 +1,2 @@
-# talentco-hr
+# talentco-resume
 TalentCo HR Resume Site
