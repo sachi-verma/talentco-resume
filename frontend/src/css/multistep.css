@@ -1,0 +1,11 @@
+#background{
+    /* background-color: #101e45; */
+    background-color: #ffffff;
+    position: relative;
+    min-height:100vh;
+}
+
+#card{
+box-shadow: rgba(6, 0, 63, 0.85) 0px 0px 20px;
+/* box-shadow: rgba(6, 0, 63, 0.85) 0px 54px 55px, rgba(6, 0, 63, 0.85) 0px -12px 30px, rgba(6, 0, 63, 0.85) 0px 4px 6px, rgba(6, 0, 63, 0.85) 0px 12px 13px, rgba(6, 0, 63, 0.85) 0px -3px 5px; */
+}
