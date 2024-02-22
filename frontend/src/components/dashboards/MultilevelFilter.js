@@ -130,8 +130,9 @@ function GridExample() {
             <Nav variant="pills" activeKey="2">
               <Nav.Link eventKey="1" href="http://localhost:3000/dynamicform" style={{margin: '5px'}}>Resume Form</Nav.Link>  
               <Nav.Link eventKey="2" href="http://localhost:3000/filter" style={{margin: '5px'}}>View Resumes</Nav.Link>  
-              <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>  
-              <Nav.Link eventKey="3" href="http://127.0.0.1:8000/" style={{margin: '5px'}}>Resume Parser</Nav.Link> 
+              <Nav.Link eventKey="3" href="http://localhost:3000/upload" style={{margin: '5px'}}>Upload Resumes</Nav.Link>
+              {/* <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>  
+              <Nav.Link eventKey="3" href="http://127.0.0.1:8000/" style={{margin: '5px'}}>Resume Parser</Nav.Link>  */}
             </Nav>  
           </Navbar.Collapse>  
         </Container>  
@@ -141,12 +142,12 @@ function GridExample() {
           <input
             type="text"
             id="filter-text-box"
-            placeholder="Filter..."
+            placeholder="Type here to search"
             onInput={onFilterTextBoxChanged}
             style={{marginLeft: '10px'}}
           />
         </div>  
-        <div className='ag-theme-quartz' style={{height: "90vh" }}>
+        <div className='ag-theme-quartz' style={{height: "80vh" }}>
         <Helmet>
         <title>Talentco | View Resumes</title>
         </Helmet>
