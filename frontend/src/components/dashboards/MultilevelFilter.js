@@ -70,7 +70,7 @@ function GridExample() {
         ]);
 
     const defaultColDef = useMemo( () => ({
-        minWidth: 250,
+        minWidth: 150,
         sortable: true,
         filter: true,
         floatingFilter: true,
