@@ -35,6 +35,20 @@ var filterParams = {
     inRangeFloatingFilterDateFormat: 'DD MMM YYYY',
   };
 
+// function formatDate(dateString) {
+//     const date = new Date(dateString);
+//     return date.toLocaleDateString();
+// }
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+}
+
 function GridExample() {
 
     const gridRef = useRef();
@@ -57,8 +71,10 @@ function GridExample() {
             {field: 'email'},
             {field: 'phone'},
             {field: 'linkedin'},
-            {field: 'dob'},
+            {field: 'dob', valueFormatter: params => formatDate(params.value)},
             {field: 'gender'},
+            {field: 'industry'},
+            {field: 'experience'},
             {field: 'address'},
             {field: 'current_location'},
             {field: 'current_designation'},

@@ -26,6 +26,8 @@ function DynamicForm() {
     currentLocation: '',
     currentDesignation: '',
     currentCTC: '',
+    industry:'',
+    experience:'',
     willingToRelocate: false,
     resume: null,
     // skills: ['']
@@ -47,6 +49,8 @@ const [editEducationData, setEditEducationData] = useState(null);
     current_location: formData.currentLocation,
     current_designation: formData.currentDesignation,
     current_ctc: formData.currentCTC,
+    industry: formData.industry,
+    experience: formData.experience,
     willing_to_relocate: formData.willingToRelocate,
     resume_path: formData.resume,
     education: educationModalFormData,
@@ -362,6 +366,21 @@ const handleSkillsRemove = (index) => {
             </select></Col>
             </Row>
             </Col>
+        </Row>
+
+        <Row style={{marginRight: '30px'}}>
+        <Col sm={6}>
+        <Row>
+        <Col><label style={{textAlign: 'right'}}>Industry:</label></Col>
+          <Col><input type="text" name="industry" value={formData.industry} onChange={handleConstantFieldChange} /></Col>
+          </Row>
+          </Col>
+          <Col sm={6}>
+            <Row>
+            <Col><label style={{textAlign: 'right'}}>Experience (yrs):</label></Col>
+          <Col><input type="text" name="experience" value={formData.experience} onChange={handleConstantFieldChange} /></Col>
+          </Row>
+        </Col>
         </Row>
 
         <Row style={{marginRight: '30px'}}>
