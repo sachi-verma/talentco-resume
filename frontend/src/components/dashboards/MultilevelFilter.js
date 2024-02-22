@@ -37,7 +37,7 @@ var filterParams = {
 
 function GridExample() {
 
-    // const gridRef = useRef();
+    const gridRef = useRef();
 
     const [rowData, setRowData] = useState([
         {make: 'Ford', model: 'Focus', price: 40000},
@@ -80,6 +80,13 @@ function GridExample() {
         console.log('cellClicked', e);
     })
 
+    const onFilterTextBoxChanged = useCallback(() => {
+      gridRef.current.api.setGridOption(
+        'quickFilterText',
+        document.getElementById('filter-text-box').value
+      );
+    }, []);
+
     useEffect (() => {
         fetch('http://localhost:3002/form-data')
         .then(result => result.json())
@@ -112,7 +119,17 @@ function GridExample() {
             </Nav>  
           </Navbar.Collapse>  
         </Container>  
-      </Navbar>  
+      </Navbar>
+      <div className="example-header" style={{marginTop: '10px'}}>
+          <span>Quick Filter:</span>
+          <input
+            type="text"
+            id="filter-text-box"
+            placeholder="Filter..."
+            onInput={onFilterTextBoxChanged}
+            style={{marginLeft: '10px'}}
+          />
+        </div>  
         <div className='ag-theme-quartz' style={{height: "90vh" }}>
         <Helmet>
         <title>Talentco | View Resumes</title>

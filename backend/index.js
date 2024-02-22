@@ -6,6 +6,8 @@
         const multer = require('multer');
         const path = require('path');
         const cors = require('cors');
+        const csvParser = require('csv-parser');
+        const fs = require('fs');
 
         const app = express();
         const port = 3002;
@@ -42,6 +44,43 @@
         });
 
         const upload = multer({ storage });
+
+
+        // Multer storage configuration for CSV file uploads
+        const storagecsv = multer.diskStorage({
+            destination: (req, file, cb) => {
+            cb(null, 'uploadcsv/'); // Destination folder for uploaded files
+            },
+            filename: (req, file, cb) => {
+            cb(null, file.fieldname + '-' + Date.now() + '.csv');
+            }
+        });
+        
+        const uploadcsv = multer({ storagecsv });
+
+        app.post('/upload-csv', upload.single('file'), (req, res) => {
+            const filePath = req.file.path;
+            const results = [];
+          
+            fs.createReadStream(filePath)
+              .pipe(csvParser())
+              .on('data', (data) => results.push(data))
+              .on('end', () => {
+                // Process the parsed CSV data, extract relevant columns, and save to the database
+                results.forEach((row) => {
+                  // Insert row data into the database
+                  db.query('INSERT INTO resume (name, email, phone, address, ctc, notice_period) VALUES (?, ?, ?, ?, ?, ?)', [row.name, row.email, row.phone, row.address, row.ctc, row.notice_period], (err, result) => {
+                    if (err) {
+                      console.error('Error inserting data:', err);
+                    }
+                  });
+                });
+          
+                res.status(200).send('CSV file uploaded and data saved successfully.');
+              });
+          });
+          
+  
 
         // // Route to handle form submission
         // app.post('/submit-form', upload.single('resume'), (req, res) => {
