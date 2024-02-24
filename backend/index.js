@@ -22,7 +22,7 @@
         host: 'localhost',
         user: 'root',
         password: '',
-        database: 'talentco_resume'
+        database: 'talentco'
         });
 
         db.connect(err => {
@@ -34,16 +34,16 @@
         });
 
         // Multer storage configuration for file uploads
-        const storage = multer.diskStorage({
-        destination: (req, file, cb) => {
-            cb(null, 'uploads/'); // Destination folder for uploaded files
-        },
-        filename: (req, file, cb) => {
-            cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-        }
-        });
+        // const storage = multer.diskStorage({
+        // destination: (req, file, cb) => {
+        //     cb(null, 'uploads/'); // Destination folder for uploaded files
+        // },
+        // filename: (req, file, cb) => {
+        //     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+        // }
+        // });
 
-        const upload = multer({ storage });
+        // const upload = multer({ storage });
 
 
         // Multer storage configuration for CSV file uploads
@@ -56,9 +56,21 @@
             }
         });
         
-        const uploadcsv = multer({ storagecsv });
+        const uploadcsv = multer({ 
+            storagecsv,
+            // fileFilter: (req, file, cb) => {
+            //   if (file.mimetype !== 'csv') {
+            //     return cb(new Error('Only CSV files are allowed'));
+            //   }
+            //   cb(null, true);
+            // }
+          });
 
-        app.post('/upload-csv', upload.single('file'), (req, res) => {
+        app.post('/upload-csv', uploadcsv.single('file'), (req, res) => {
+            if (!req.file) {
+                return res.status(400).send('No file uploaded.');
+              }
+
             const filePath = req.file.path;
             const results = [];
           
@@ -69,7 +81,7 @@
                 // Process the parsed CSV data, extract relevant columns, and save to the database
                 results.forEach((row) => {
                   // Insert row data into the database
-                  db.query('INSERT INTO resume (name, email, phone, address, ctc, notice_period) VALUES (?, ?, ?, ?, ?, ?)', [row.name, row.email, row.phone, row.address, row.ctc, row.notice_period], (err, result) => {
+                  db.query('INSERT INTO csvupload (skills, summary, industry, current_location, experience, current_designation, ug_degree, ug_spl, pg_degree, pg_spl, cand_name, func_area, current_company, preferred_location, annual_salary, notice_period, dob, age, marital_status, phone, email, gender, work_permit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [row.skills, row.summary, row.industry, row.current_location, row.experience, row.current_designation, row.ug_degree, row.ug_spl, row.pg_degree, row.pg_spl, row.cand_name, row.func_area, row.current_company, row.preferred_location, row.annual_salary, row.notice_period, row.dob, row.age, row.marital_status, row.phone, row.email, row.gender, row.work_permit], (err, result) => {
                     if (err) {
                       console.error('Error inserting data:', err);
                     }

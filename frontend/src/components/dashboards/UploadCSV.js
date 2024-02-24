@@ -23,7 +23,7 @@ const CSVUploadForm = () => {
     formData.append('file', file);
 
     try {
-      await axios.post('http://your-backend-url/upload-csv', formData, {
+      await axios.post('http://localhost:3002/upload-csv', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -65,6 +65,7 @@ const CSVUploadForm = () => {
     <div className="d-flex align-items-center justify-content-center" id="background">
     <Card style={{ width: '80rem', padding: '10px', marginBottom: '40px' }} className="text-center" id="card">
       <h2>Upload CSV File</h2>
+      <p>*Note: Only CSV files allowed</p>
       <form onSubmit={handleSubmit}>
         <input type="file" onChange={handleFileChange} />
         <button type="submit">Upload</button>
