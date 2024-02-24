@@ -9,3 +9,34 @@
 box-shadow: rgba(6, 0, 63, 0.85) 0px 0px 20px;
 /* box-shadow: rgba(6, 0, 63, 0.85) 0px 54px 55px, rgba(6, 0, 63, 0.85) 0px -12px 30px, rgba(6, 0, 63, 0.85) 0px 4px 6px, rgba(6, 0, 63, 0.85) 0px 12px 13px, rgba(6, 0, 63, 0.85) 0px -3px 5px; */
 }
+
+#navbar1{
+    background-color: #101e45;
+    box-shadow: 0px 1px 10px #999;
+}
+
+.red .active a,
+.red .active a:hover {
+    background-color: red;
+}
+
+/* Inactive tab */
+.myNav ul > li > a {
+    background-color: white;
+    color: red;
+}
+.myNav ul > li > a:hover {
+    background-color: pink;
+}
+
+/* Active tab */
+.myNav ul > li.active > a,
+.myNav ul > li.active > a:hover,
+.myNav ul > li.active > a:focus {
+    background-color: red;
+    color: white;
+}
+
+.nav.nav-pills .nav-link.active {
+    background-color: red;
+}

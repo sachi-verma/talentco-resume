@@ -115,10 +115,10 @@ function GridExample() {
 
     return (
         <>
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" sticky="top">  
+        <Navbar collapseOnSelect expand="lg" variant="dark" sticky="top" id="navbar1" className="nav">  
         <Container>  
           <Navbar.Brand href="#" style={{fontSize: 18}}>
-            <img src="img/Picture2_small.png" alt="brand-logo" height="30" width="25" style={{marginRight: '10px'}}/>
+            <img src="img/Picture2_small.png" alt="brand-logo" height="34" width="25" style={{marginRight: '10px'}}/>
             TalentCo Resume Management
           </Navbar.Brand>  
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />  
@@ -127,9 +127,9 @@ function GridExample() {
               {/* <Nav.Link href="#features">Link 1</Nav.Link>  
               <Nav.Link href="#pricing">Link 2</Nav.Link>    */}
             </Nav>  
-            <Nav variant="pills" activeKey="2">
+            <Nav variant="pills" activeKey="2" className="myNav nav-pills">
               <Nav.Link eventKey="1" href="http://localhost:3000/dynamicform" style={{margin: '5px'}}>Resume Form</Nav.Link>  
-              <Nav.Link eventKey="2" href="http://localhost:3000/filter" style={{margin: '5px'}}>View Resumes</Nav.Link>  
+              <Nav.Link className="nav-link" eventKey="2" href="http://localhost:3000/filter" style={{margin: '5px', backgroundColor: "#d71728"}}>View Resumes</Nav.Link>  
               <Nav.Link eventKey="3" href="http://localhost:3000/upload" style={{margin: '5px'}}>Upload Resumes</Nav.Link>
               {/* <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>  
               <Nav.Link eventKey="3" href="http://127.0.0.1:8000/" style={{margin: '5px'}}>Resume Parser</Nav.Link>  */}

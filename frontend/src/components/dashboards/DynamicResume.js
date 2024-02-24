@@ -280,7 +280,7 @@ const handleSkillsRemove = (index) => {
     <Helmet>
         <title>Talentco | Resume Form</title>
     </Helmet>
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" sticky="top">  
+    <Navbar collapseOnSelect expand="lg" id="navbar1" variant="dark" sticky="top">  
         <Container>  
           <Navbar.Brand href="#" style={{fontSize: 18}}>
             <img src="img/Picture2_small.png" alt="brand-logo" height="35" width="25" style={{marginRight: '7px'}}/>
@@ -293,7 +293,7 @@ const handleSkillsRemove = (index) => {
               <Nav.Link href="#pricing">Link 2</Nav.Link>    */}
             </Nav>  
             <Nav variant="pills" activeKey="1">
-              <Nav.Link eventKey="1" href="http://localhost:3000/dynamicform" style={{margin: '5px'}}>Resume Form</Nav.Link>  
+              <Nav.Link eventKey="1" href="http://localhost:3000/dynamicform" style={{margin: '5px', backgroundColor: "#d71728"}}>Resume Form</Nav.Link>  
               <Nav.Link eventKey="2" href="http://localhost:3000/filter" style={{margin: '5px'}}>View Resumes</Nav.Link>
               <Nav.Link eventKey="3" href="http://localhost:3000/upload" style={{margin: '5px'}}>Upload Resumes</Nav.Link>  
               {/* <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>
