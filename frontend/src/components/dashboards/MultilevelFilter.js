@@ -67,18 +67,29 @@ function GridExample() {
     // ]);
 
     const [columnDefs, setColumnDefs] = useState([
-            {field: 'name'},
-            {field: 'email'},
-            {field: 'phone'},
-            {field: 'linkedin'},
-            {field: 'dob', valueFormatter: params => formatDate(params.value)},
-            {field: 'gender'},
+            {field: 'skills'},
+            {field: 'summary'},
             {field: 'industry'},
-            {field: 'experience'},
-            {field: 'address'},
             {field: 'current_location'},
+            {field: 'experience'},
             {field: 'current_designation'},
-            {field: 'current_ctc'},
+            {field: 'ug_degree'},
+            {field: 'ug_spl'},
+            {field: 'pg_degree'},
+            {field: 'pg_spl'},
+            {field: 'name'},
+            {field: 'func_area'},
+            {field: 'current_company'},
+            {field: 'preferred_location'},
+            {field: 'annual_salary'},
+            {field: 'notice_period'},
+            {field: 'dob', valueFormatter: params => formatDate(params.value)},
+            {field: 'age'},
+            {field: 'marital_status'},
+            {field: 'phone'},
+            {field: 'email'},
+            {field: 'gender'},
+            {field: 'work_permit'},
             // {field: 'willing_to_relocate'},
             // {field: 'resume_path'},
             // {field: 'age'},
@@ -104,7 +115,7 @@ function GridExample() {
     }, []);
 
     useEffect (() => {
-        fetch('http://localhost:3002/form-data')
+        fetch('http://localhost:3002/csv-data')
         .then(result => result.json())
         .then(rowData => setRowData(rowData))
     }, [])
@@ -128,7 +139,7 @@ function GridExample() {
               <Nav.Link href="#pricing">Link 2</Nav.Link>    */}
             </Nav>  
             <Nav variant="pills" activeKey="2" className="myNav nav-pills">
-              <Nav.Link eventKey="1" href="http://localhost:3000/dynamicform" style={{margin: '5px'}}>Resume Form</Nav.Link>  
+              <Nav.Link eventKey="1" href="http://localhost:3000/form" style={{margin: '5px'}}>Resume Form</Nav.Link>  
               <Nav.Link className="nav-link" eventKey="2" href="http://localhost:3000/filter" style={{margin: '5px', backgroundColor: "#d71728"}}>View Resumes</Nav.Link>  
               <Nav.Link eventKey="3" href="http://localhost:3000/upload" style={{margin: '5px'}}>Upload Resumes</Nav.Link>
               {/* <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>  

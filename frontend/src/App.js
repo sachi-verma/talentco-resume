@@ -49,7 +49,8 @@ import SinglePageForm from './components/dashboards/SinglepageForm';
 import GridExample from './components/dashboards/MultilevelFilter';
 import DynamicForm from './components/dashboards/DynamicResume';
 import DjangoFilter from './components/dashboards/DjangoFilter';
-import CSVUploadForm from './components/dashboards/UploadCSV'
+import CSVUploadForm from './components/dashboards/UploadCSV';
+import FormCSV from './components/dashboards/FormCSV'
 
 
 
@@ -78,6 +79,7 @@ const App = () => {
           <Route path="/dynamicform" element={<DynamicForm />} />
           <Route path="/djangofilter" element={<DjangoFilter />} />
           <Route path="/upload" element={<CSVUploadForm />} />
+          <Route path="/form" element={<FormCSV />} />
 
 
 
