@@ -52,9 +52,9 @@ const CSVUploadForm = () => {
               <Nav.Link href="#pricing">Link 2</Nav.Link>    */}
             </Nav>  
             <Nav variant="pills" activeKey="3">
-              <Nav.Link eventKey="1" href="http://localhost:3000/form" style={{margin: '15px', color: '#101e45'}}>Resume Form</Nav.Link>  
-              <Nav.Link eventKey="2" href="http://localhost:3000/filter" style={{margin: '15px', color: '#101e45'}}>View Resumes</Nav.Link>  
-              <Nav.Link eventKey="3" href="http://localhost:3000/upload" style={{margin: '15px', backgroundColor: "#101e45"}}>Upload Resumes</Nav.Link>
+              <Nav.Link eventKey="1" href="/form" style={{margin: '15px', color: '#101e45'}}>Resume Form</Nav.Link>  
+              <Nav.Link eventKey="2" href="/filter" style={{margin: '15px', color: '#101e45'}}>View Resumes</Nav.Link>  
+              <Nav.Link eventKey="3" href="/upload" style={{margin: '15px', backgroundColor: "#101e45"}}>Upload Resumes</Nav.Link>
               {/* <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>  
               <Nav.Link eventKey="3" href="http://127.0.0.1:8000/" style={{margin: '5px'}}>Resume Parser</Nav.Link>  */}
             </Nav>  

@@ -49,8 +49,8 @@ const ResumeBuilder = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="justify-content-end">
-            <Nav.Link href="http://localhost:3000/dynamicform">Resume Form</Nav.Link>
-            <Nav.Link href="http://localhost:3000/filter">View Resumes</Nav.Link>
+            <Nav.Link href="/form">Resume Form</Nav.Link>
+            <Nav.Link href="/filter">View Resumes</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
