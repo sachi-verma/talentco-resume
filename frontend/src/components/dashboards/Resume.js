@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import Container from 'react-bootstrap/container';
+import { Container } from 'react-bootstrap';
 import Profile from '../resume-components/profile';
 import About from '../resume-components/about';
 import Experience from '../resume-components/experience';

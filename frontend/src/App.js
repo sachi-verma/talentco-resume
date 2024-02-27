@@ -31,7 +31,7 @@ import './App.css';
 // import './css/skeleton.css';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Container from 'react-bootstrap/Container';
+import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import ResumeBuilder from './components/dashboards/ResumeBuilder';
 import ClientDashboard from './components/dashboards/ClientDashboard';
