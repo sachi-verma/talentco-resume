@@ -3,7 +3,7 @@
 //add ResumeTemplate.js to App.js to see what's in there
 import React, { useState } from 'react';
 import '../../css/multistep.css';
-import { Form, Card, Button, ProgressBar, ListGroup, Modal, Badge, Row, Col, Container, Nav, Navbar } from 'react-bootstrap';
+import { Form, Card, Button, ProgressBar, ListGroup, Modal, Badge, Row, Col, Container, Nav, Navbar, NavLink } from 'react-bootstrap';
 import EducationModalForm from '../modal-forms/EducationModal'
 import ExperienceModalForm from '../modal-forms/ExperienceModal'
 import CertificationsModalForm from '../modal-forms/CertificationsModal'
@@ -111,9 +111,9 @@ function FormCSV() {
               <Nav.Link href="#pricing">Link 2</Nav.Link>    */}
             </Nav>  
             <Nav variant="pills" activeKey="1">
-              <Nav.Link eventKey="1" to="/dynamicform" style={{margin: '5px', backgroundColor: "#101e45"}}>Resume Form</Nav.Link>  
-              <Nav.Link eventKey="2" to="/filter" style={{margin: '5px', color: '#101e45'}}>View Resumes</Nav.Link>
-              <Nav.Link eventKey="3" to="/upload" style={{margin: '5px', color: '#101e45'}}>Upload Resumes</Nav.Link>  
+              <NavLink eventKey="1" href="/dynamicform" style={{margin: '5px', backgroundColor: "#101e45"}}>Resume Form</NavLink>  
+              <NavLink eventKey="2" href="/filter" style={{margin: '5px', color: '#101e45'}}>View Resumes</NavLink>
+              <NavLink eventKey="3" href="/upload" style={{margin: '5px', color: '#101e45'}}>Upload Resumes</NavLink>  
               {/* <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>
               <Nav.Link eventKey="3" href="http://127.0.0.1:8000/" style={{margin: '5px'}}>Resume Parser</Nav.Link>     */}
             </Nav>  

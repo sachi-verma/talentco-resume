@@ -1,7 +1,7 @@
 import {AgGridReact} from 'ag-grid-react';
 import {useState, useEffect, useMemo, useCallback, useRef} from 'react';
 import { Helmet } from 'react-helmet';
-import { Form, Card, Button, ProgressBar, ListGroup, Modal, Badge, Row, Col, Container, Nav, Navbar } from 'react-bootstrap';
+import { Form, Card, Button, ProgressBar, ListGroup, Modal, Badge, Row, Col, Container, Nav, Navbar, NavLink } from 'react-bootstrap';
 
 
 
@@ -144,9 +144,9 @@ function GridExample() {
               <Nav.Link href="#pricing">Link 2</Nav.Link>    */}
             </Nav>  
             <Nav variant="pills" activeKey="2" className="myNav nav-pills">
-              <Nav.Link eventKey="1" to="/form" style={{margin: '5px', color: '#101e45'}}>Resume Form</Nav.Link>  
-              <Nav.Link className="nav-link" eventKey="2" to="/filter" style={{margin: '5px', backgroundColor: "#101e45"}}>View Resumes</Nav.Link>  
-              <Nav.Link eventKey="3" to="/upload" style={{margin: '5px', color: '#101e45'}}>Upload Resumes</Nav.Link>
+              <NavLink eventKey="1" href="/form" style={{margin: '5px', color: '#101e45'}}>Resume Form</NavLink>  
+              <NavLink className="nav-link" eventKey="2" href="/filter" style={{margin: '5px', backgroundColor: "#101e45"}}>View Resumes</NavLink>  
+              <NavLink eventKey="3" href="/upload" style={{margin: '5px', color: '#101e45'}}>Upload Resumes</NavLink>
               {/* <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>  
               <Nav.Link eventKey="3" href="http://127.0.0.1:8000/" style={{margin: '5px'}}>Resume Parser</Nav.Link>  */}
             </Nav>  

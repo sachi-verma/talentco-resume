@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, Nav, Navbar, Card } from 'react-bootstrap';
+import { Container, Nav, Navbar, Card, NavLink } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 
 const CSVUploadForm = () => {
@@ -52,9 +52,9 @@ const CSVUploadForm = () => {
               <Nav.Link href="#pricing">Link 2</Nav.Link>    */}
             </Nav>  
             <Nav variant="pills" activeKey="3">
-              <Nav.Link eventKey="1" to="/form" style={{margin: '15px', color: '#101e45'}}>Resume Form</Nav.Link>  
-              <Nav.Link eventKey="2" to="/filter" style={{margin: '15px', color: '#101e45'}}>View Resumes</Nav.Link>  
-              <Nav.Link eventKey="3" to="/upload" style={{margin: '15px', backgroundColor: "#101e45"}}>Upload Resumes</Nav.Link>
+              <NavLink eventKey="1" href="/form" style={{margin: '15px', color: '#101e45'}}>Resume Form</NavLink>  
+              <NavLink eventKey="2" href="/filter" style={{margin: '15px', color: '#101e45'}}>View Resumes</NavLink>  
+              <NavLink eventKey="3" href="/upload" style={{margin: '15px', backgroundColor: "#101e45"}}>Upload Resumes</NavLink>
               {/* <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>  
               <Nav.Link eventKey="3" href="http://127.0.0.1:8000/" style={{margin: '5px'}}>Resume Parser</Nav.Link>  */}
             </Nav>  
