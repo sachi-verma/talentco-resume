@@ -98,10 +98,10 @@ function FormCSV() {
     <Helmet>
         <title>Talentco | Resume Form</title>
     </Helmet>
-    <Navbar collapseOnSelect expand="lg" id="navbar1" variant="dark" sticky="top">  
+    <Navbar collapseOnSelect expand="lg" id="navbar1" variant="dark" sticky="top" height="60px" style={{height: '80px'}}>  
         <Container>  
-          <Navbar.Brand href="#" style={{fontSize: 18}}>
-            <img src="img/Picture2_small.png" alt="brand-logo" height="35" width="25" style={{marginRight: '7px'}}/>
+          <Navbar.Brand href="#" style={{fontSize: 18, color: '#101e45'}}>
+            <img src="img/logo_small.png" alt="brand-logo" height="40" width="34" style={{marginRight: '7px'}}/>
             TalentCo Resume Management
           </Navbar.Brand>  
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />  
@@ -111,9 +111,9 @@ function FormCSV() {
               <Nav.Link href="#pricing">Link 2</Nav.Link>    */}
             </Nav>  
             <Nav variant="pills" activeKey="1">
-              <Nav.Link eventKey="1" href="http://localhost:3000/dynamicform" style={{margin: '5px', backgroundColor: "#d71728"}}>Resume Form</Nav.Link>  
-              <Nav.Link eventKey="2" href="http://localhost:3000/filter" style={{margin: '5px'}}>View Resumes</Nav.Link>
-              <Nav.Link eventKey="3" href="http://localhost:3000/upload" style={{margin: '5px'}}>Upload Resumes</Nav.Link>  
+              <Nav.Link eventKey="1" href="http://localhost:3000/dynamicform" style={{margin: '5px', backgroundColor: "#101e45"}}>Resume Form</Nav.Link>  
+              <Nav.Link eventKey="2" href="http://localhost:3000/filter" style={{margin: '5px', color: '#101e45'}}>View Resumes</Nav.Link>
+              <Nav.Link eventKey="3" href="http://localhost:3000/upload" style={{margin: '5px', color: '#101e45'}}>Upload Resumes</Nav.Link>  
               {/* <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>
               <Nav.Link eventKey="3" href="http://127.0.0.1:8000/" style={{margin: '5px'}}>Resume Parser</Nav.Link>     */}
             </Nav>  
@@ -154,10 +154,102 @@ function FormCSV() {
         </Row>
 
         <Row style={{marginRight: '30px'}}>
-            <Col sm={6}>
+            {/* <Col sm={6}>
             <Row style={{margin: '5px'}}>
             <Col><label style={{textAlign: 'right'}}> Industry:</label></Col>
             <Col><input type="text" name="industry" value={formData.industry} onChange={handleConstantFieldChange} /></Col>
+            </Row>
+            </Col> */}
+            <Col sm={6}>
+            <Row style={{margin: '5px'}}>
+            <Col><label style={{textAlign: 'right'}}>Industry:</label></Col>
+            <Col><select name="industry" value={formData.industry} onChange={handleConstantFieldChange} style={{width: '200px'}}>
+                <option value="">Select Industry</option>
+                <option value="Analytics / KPO / Research   ">Analytics / KPO / Research   </option>
+                <option value="BPO / Call Centre">BPO / Call Centre</option>
+                <option value="IT Services & Consulting">IT Services & Consulting</option>
+                <option value="Electronic Components / Semiconductors">Electronic Components / Semiconductors</option>
+                <option value="Electronics Manufacturing">Electronics Manufacturing</option>
+                <option value="Emerging Technologies">Emerging Technologies</option>
+                <option value="Hardware & Networking">Hardware & Networking</option>
+                <option value="Internet">Internet</option>
+                <option value="Software Product">Software Product</option>
+                <option value="Banking">Banking</option>
+                <option value="Financial Services">Financial Services</option>
+                <option value="FinTech / Payments">FinTech / Payments</option>
+                <option value="Insurance">Insurance</option>
+                <option value="Investment Banking / Venture Capital / Private Equity">Investment Banking / Venture Capital / Private Equity</option>
+                <option value="NBFC">NBFC</option>
+                <option value="Education / Training">Education / Training</option>
+                <option value="E-Learning / EdTech">E-Learning / EdTech</option>
+                <option value="Automobile">Automobile</option>
+                <option value="Auto Components">Auto Components</option>
+                <option value="Building Material">Building Material</option>
+                <option value="Chemicals">Chemicals</option>
+                <option value="Defence & Aerospace">Defence & Aerospace</option>
+                <option value="Electrical Equipment">Electrical Equipment</option>
+                <option value="Fertilizers / Pesticides / Agro chemicals">Fertilizers / Pesticides / Agro chemicals</option>
+                <option value="Industrial Automation">Industrial Automation</option>
+                <option value="Industrial Equipment / Machinery">Industrial Equipment / Machinery</option>
+                <option value="Iron & Steel">Iron & Steel</option>
+                <option value="Metals & Mining">Metals & Mining</option>
+                <option value="Packaging & Containers">Packaging & Containers</option>
+                <option value="Petrochemical / Plastics / Rubber">Petrochemical / Plastics / Rubber</option>
+                <option value="Pulp & Paper">Pulp & Paper</option>
+                <option value="Aviation">Aviation</option>
+                <option value="Courier / Logistics">Courier / Logistics</option>
+                <option value="Engineering & Construction">Engineering & Construction</option>
+                <option value="Oil & Gas">Oil & Gas</option>
+                <option value="Ports & Shipping">Ports & Shipping</option>
+                <option value="Power">Power</option>
+                <option value="Railways">Railways</option>
+                <option value="Real Estate">Real Estate</option>
+                <option value="Urban Transport">Urban Transport</option>
+                <option value="Water Treatment / Waste Management">Water Treatment / Waste Management</option>
+                <option value="Beauty & Personal Care">Beauty & Personal Care</option>
+                <option value="Beverage">Beverage</option>
+                <option value="Consumer Electronics & Appliances">Consumer Electronics & Appliances</option>
+                <option value="Fitness & Wellness">Fitness & Wellness</option>
+                <option value="FMCG">FMCG</option>
+                <option value="Food Processing  ">Food Processing </option>
+                <option value="Furniture & Furnishing">Furniture & Furnishing</option>
+                <option value="Gems & Jewellery">Gems & Jewellery</option>
+                <option value="Hotels & Restaurants">Hotels & Restaurants</option>
+                <option value="Leather">Leather</option>
+                <option value="Retail">Retail</option>
+                <option value="Textile & Apparel">Textile & Apparel</option>
+                <option value="Travel & Tourism">Travel & Tourism</option>
+                <option value="Biotechnology">Biotechnology</option>
+                <option value="Clinical Research / Contract Research">Clinical Research / Contract Research</option>
+                <option value="Medical Services / Hospital">Medical Services / Hospital</option>
+                <option value="Medical Devices & Equipment">Medical Devices & Equipment</option>
+                <option value="Pharmaceutical & Life Sciences">Pharmaceutical & Life Sciences</option>
+                <option value="Advertising & Marketing ">Advertising & Marketing </option>
+                <option value="Animation & VFX">Animation & VFX</option>
+                <option value="Events / Live Entertainment">Events / Live Entertainment</option>
+                <option value="Film / Music / Entertainment">Film / Music / Entertainment</option>
+                <option value="Gaming">Gaming</option>
+                <option value="Printing & Publishing">Printing & Publishing</option>
+                <option value="Sports / Leisure & Recreation">Sports / Leisure & Recreation</option>
+                <option value="Telecom / ISP">Telecom / ISP</option>
+                <option value="TV / Radio">TV / Radio</option>
+                <option value="Architecture / Interior Design">Architecture / Interior Design</option>
+                <option value="Accounting / Auditing">Accounting / Auditing</option>
+                <option value="Content Development / Language">Content Development / Language</option>
+                <option value="Design">Design</option>
+                <option value="Facility Management Services ">Facility Management Services   </option>
+                <option value="Law Enforcement / Security Services">Law Enforcement / Security Services</option>
+                <option value="Legal">Legal</option>
+                <option value="Recruitment / Staffing">Recruitment / Staffing</option>
+                <option value="Management Consulting">Management Consulting</option>
+                <option value="Agriculture / Forestry / Fishing">Agriculture / Forestry / Fishing</option>
+                <option value="Government / Public Administration">Government / Public Administration</option>
+                <option value="Import & Export">Import & Export</option>
+                <option value="NGO / Social Services / Industry Associations">NGO / Social Services / Industry Associations</option>
+                <option value="Miscellaneous">Miscellaneous</option>
+
+
+            </select></Col>
             </Row>
             </Col>
             <Col sm={6}>

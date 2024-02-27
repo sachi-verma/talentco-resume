@@ -52,12 +52,13 @@ function formatDate(dateString) {
 function GridExample() {
 
     const gridRef = useRef();
+    
 
-    const [rowData, setRowData] = useState([
-        {make: 'Ford', model: 'Focus', price: 40000},
-        {make: 'Toyota', model: 'Celica', price: 50000},
-        {make: 'BMW', model: '4 Series', price: 60000}
-    ]);
+    // const [rowData, setRowData] = useState([
+    //     {make: 'Ford', model: 'Focus', price: 40000},
+    //     {make: 'Toyota', model: 'Celica', price: 50000},
+    //     {make: 'BMW', model: '4 Series', price: 60000}
+    // ]);
 
     // to be used if removing the const defaultColDef
     // const [columnDefs, setColumnDefs] = useState([
@@ -65,6 +66,10 @@ function GridExample() {
     //     {field: 'model', sortable: true, filter: true},
     //     {field: 'price', sortable: true, filter: true}
     // ]);
+
+    const containerStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
+
+    const [rowData, setRowData] = useState();
 
     const [columnDefs, setColumnDefs] = useState([
             {field: 'skills'},
@@ -105,20 +110,20 @@ function GridExample() {
 
     const cellClickedListener = useCallback ( e => {
         console.log('cellClicked', e);
-    })
-
-    const onFilterTextBoxChanged = useCallback(() => {
-      gridRef.current.api.setGridOption(
-        'quickFilterText',
-        document.getElementById('filter-text-box').value
-      );
-    }, []);
+    })  
 
     useEffect (() => {
         fetch('http://localhost:3002/csv-data')
-        .then(result => result.json())
-        .then(rowData => setRowData(rowData))
+        .then((resp) => resp.json())
+        .then((data) => setRowData(data));
     }, [])
+
+    const onFilterTextBoxChanged = useCallback(() => {
+        gridRef.current.api.setGridOption(
+          'quickFilterText',
+          document.getElementById('filter-text-box').value
+        );
+      }, []);
 
     // const pushMeClicked = useCallback( e => {
     //     gridRef.curent.api.deselectAll();
@@ -126,10 +131,10 @@ function GridExample() {
 
     return (
         <>
-        <Navbar collapseOnSelect expand="lg" variant="dark" sticky="top" id="navbar1" className="nav">  
+        <Navbar collapseOnSelect expand="lg" variant="dark" sticky="top" id="navbar1" className="nav" style={{height: '80px'}}>  
         <Container>  
-          <Navbar.Brand href="#" style={{fontSize: 18}}>
-            <img src="img/Picture2_small.png" alt="brand-logo" height="34" width="25" style={{marginRight: '10px'}}/>
+          <Navbar.Brand href="#" style={{fontSize: 18, color: '#101e45'}}>
+            <img src="img/logo_small.png" alt="brand-logo" height="40" width="34" style={{marginRight: '10px'}}/>
             TalentCo Resume Management
           </Navbar.Brand>  
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />  
@@ -139,17 +144,17 @@ function GridExample() {
               <Nav.Link href="#pricing">Link 2</Nav.Link>    */}
             </Nav>  
             <Nav variant="pills" activeKey="2" className="myNav nav-pills">
-              <Nav.Link eventKey="1" href="http://localhost:3000/form" style={{margin: '5px'}}>Resume Form</Nav.Link>  
-              <Nav.Link className="nav-link" eventKey="2" href="http://localhost:3000/filter" style={{margin: '5px', backgroundColor: "#d71728"}}>View Resumes</Nav.Link>  
-              <Nav.Link eventKey="3" href="http://localhost:3000/upload" style={{margin: '5px'}}>Upload Resumes</Nav.Link>
+              <Nav.Link eventKey="1" href="http://localhost:3000/form" style={{margin: '5px', color: '#101e45'}}>Resume Form</Nav.Link>  
+              <Nav.Link className="nav-link" eventKey="2" href="http://localhost:3000/filter" style={{margin: '5px', backgroundColor: "#101e45"}}>View Resumes</Nav.Link>  
+              <Nav.Link eventKey="3" href="http://localhost:3000/upload" style={{margin: '5px', color: '#101e45'}}>Upload Resumes</Nav.Link>
               {/* <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>  
               <Nav.Link eventKey="3" href="http://127.0.0.1:8000/" style={{margin: '5px'}}>Resume Parser</Nav.Link>  */}
             </Nav>  
           </Navbar.Collapse>  
         </Container>  
       </Navbar>
-      <div className="example-header" style={{marginTop: '10px'}}>
-          <span>Quick Filter:</span>
+      {/* <div className="example-header" style={{marginTop: '10px'}}>
+          <span>Keyword Filter:</span>
           <input
             type="text"
             id="filter-text-box"
@@ -157,8 +162,8 @@ function GridExample() {
             onInput={onFilterTextBoxChanged}
             style={{marginLeft: '10px'}}
           />
-        </div>  
-        <div className='ag-theme-quartz' style={{height: "80vh" }}>
+        </div>   */}
+        <div className='ag-theme-quartz' style={{height: "85vh" }}>
         <Helmet>
         <title>Talentco | View Resumes</title>
         </Helmet>

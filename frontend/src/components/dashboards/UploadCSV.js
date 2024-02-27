@@ -39,10 +39,10 @@ const CSVUploadForm = () => {
     <Helmet>
         <title>Talentco | Upload</title>
     </Helmet>
-    <Navbar collapseOnSelect expand="lg" id="navbar1" variant="dark" sticky="top">  
+    <Navbar collapseOnSelect expand="lg" id="navbar1" variant="dark" sticky="top" style={{height: '80px'}}>  
         <Container>  
-          <Navbar.Brand href="#" style={{fontSize: 18}}>
-            <img src="img/Picture2_small.png" alt="brand-logo" height="30" width="25" style={{marginRight: '10px'}}/>
+          <Navbar.Brand href="#" id="navbrand" style={{fontSize: 18, color: '#101e45'}}>
+            <img src="img/logo_small.png" alt="brand-logo" height="40" width="34" style={{marginRight: '10px'}}/>
             TalentCo Resume Management
           </Navbar.Brand>  
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />  
@@ -52,9 +52,9 @@ const CSVUploadForm = () => {
               <Nav.Link href="#pricing">Link 2</Nav.Link>    */}
             </Nav>  
             <Nav variant="pills" activeKey="3">
-              <Nav.Link eventKey="1" href="http://localhost:3000/form" style={{margin: '5px'}}>Resume Form</Nav.Link>  
-              <Nav.Link eventKey="2" href="http://localhost:3000/filter" style={{margin: '5px'}}>View Resumes</Nav.Link>  
-              <Nav.Link eventKey="3" href="http://localhost:3000/upload" style={{margin: '5px', backgroundColor: "#d71728"}}>Upload Resumes</Nav.Link>
+              <Nav.Link eventKey="1" href="http://localhost:3000/form" style={{margin: '15px', color: '#101e45'}}>Resume Form</Nav.Link>  
+              <Nav.Link eventKey="2" href="http://localhost:3000/filter" style={{margin: '15px', color: '#101e45'}}>View Resumes</Nav.Link>  
+              <Nav.Link eventKey="3" href="http://localhost:3000/upload" style={{margin: '15px', backgroundColor: "#101e45"}}>Upload Resumes</Nav.Link>
               {/* <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>  
               <Nav.Link eventKey="3" href="http://127.0.0.1:8000/" style={{margin: '5px'}}>Resume Parser</Nav.Link>  */}
             </Nav>  
