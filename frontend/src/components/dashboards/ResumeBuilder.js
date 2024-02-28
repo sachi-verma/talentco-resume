@@ -1,9 +1,9 @@
 // components/ResumeBuilder.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 // import './ResumeBuilder.css';
-import { Container, Nav, Navbar, NavLink} from 'react-bootstrap';
+import { Container, Nav, Navbar } from 'react-bootstrap';
 
 const ResumeBuilder = () => {
   const [formData, setFormData] = useState({
@@ -49,8 +49,8 @@ const ResumeBuilder = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="justify-content-end">
-            <NavLink href="/form">Resume Form</NavLink>
-            <NavLink href="/filter">View Resumes</NavLink>
+            <NavLink to="/form" style={{margin: '15px'}}>Resume Form</NavLink>
+            <NavLink to="/filter" style={{margin: '15px'}}>View Resumes</NavLink>
           </Nav>
         </Navbar.Collapse>
       </Container>
