@@ -1,7 +1,11 @@
 import {AgGridReact} from 'ag-grid-react';
 import {useState, useEffect, useMemo, useCallback, useRef} from 'react';
 import { Helmet } from 'react-helmet';
-import { Form, Card, Button, ProgressBar, ListGroup, Modal, Badge, Row, Col, Container, Nav, Navbar, NavLink } from 'react-bootstrap';
+import { Form, Card, Button, ProgressBar, ListGroup, Modal, Badge, Row, Col, Container, Nav, Navbar } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
+import '../../css/multistep.css';
+
+
 
 
 
@@ -143,10 +147,10 @@ function GridExample() {
               {/* <Nav.Link href="#features">Link 1</Nav.Link>  
               <Nav.Link href="#pricing">Link 2</Nav.Link>    */}
             </Nav>  
-            <Nav variant="pills" activeKey="2" className="myNav nav-pills">
-              <NavLink eventKey="1" href="/form" style={{margin: '5px', color: '#101e45'}}>Resume Form</NavLink>  
-              <NavLink className="nav-link" eventKey="2" href="/filter" style={{margin: '5px', backgroundColor: "#101e45"}}>View Resumes</NavLink>  
-              <NavLink eventKey="3" href="/upload" style={{margin: '5px', color: '#101e45'}}>Upload Resumes</NavLink>
+            <Nav activeKey="2" >
+              <NavLink eventKey="1" to="/form" style={{margin: '15px', marginTop: '20px', color: '#101e45', textDecoration: 'none'}}>Resume Form</NavLink>  
+              <NavLink className="nav-link" eventKey="2" to="/filter" style={{margin: '15px', color: '#d71728', textDecoration: 'none'}}>View Resumes</NavLink>  
+              <NavLink eventKey="3" to="/upload" style={{margin: '15px', marginTop: '20px', color: '#101e45', textDecoration: 'none'}}>Upload Resumes</NavLink>
               {/* <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>  
               <Nav.Link eventKey="3" href="http://127.0.0.1:8000/" style={{margin: '5px'}}>Resume Parser</Nav.Link>  */}
             </Nav>  

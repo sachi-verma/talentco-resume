@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, Nav, Navbar, Card, NavLink } from 'react-bootstrap';
+import { Container, Nav, Navbar, Card } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
+import { NavLink } from 'react-router-dom';
+import '../../css/multistep.css';
+
+
 
 const CSVUploadForm = () => {
   const [file, setFile] = useState(null);
@@ -39,9 +43,9 @@ const CSVUploadForm = () => {
     <Helmet>
         <title>Talentco | Upload</title>
     </Helmet>
-    <Navbar collapseOnSelect expand="lg" id="navbar1" variant="dark" sticky="top" style={{height: '80px'}}>  
+    <Navbar collapseOnSelect expand="lg" variant="dark" sticky="top" id="navbar1" className="nav" style={{height: '80px'}}>  
         <Container>  
-          <Navbar.Brand href="#" id="navbrand" style={{fontSize: 18, color: '#101e45'}}>
+          <Navbar.Brand href="#" style={{fontSize: 18, color: '#101e45'}}>
             <img src="img/logo_small.png" alt="brand-logo" height="40" width="34" style={{marginRight: '10px'}}/>
             TalentCo Resume Management
           </Navbar.Brand>  
@@ -51,16 +55,18 @@ const CSVUploadForm = () => {
               {/* <Nav.Link href="#features">Link 1</Nav.Link>  
               <Nav.Link href="#pricing">Link 2</Nav.Link>    */}
             </Nav>  
-            <Nav variant="pills" activeKey="3">
-              <NavLink eventKey="1" href="/form" style={{margin: '15px', color: '#101e45'}}>Resume Form</NavLink>  
-              <NavLink eventKey="2" href="/filter" style={{margin: '15px', color: '#101e45'}}>View Resumes</NavLink>  
-              <NavLink eventKey="3" href="/upload" style={{margin: '15px', backgroundColor: "#101e45"}}>Upload Resumes</NavLink>
+            <Nav activeKey="3">
+              <NavLink eventKey="1" to="/form" style={{margin: '15px', marginTop: '20px', color: '#101e45', textDecoration: 'none'}}>Resume Form</NavLink>  
+              <NavLink className="nav-link" eventKey="2" to="/filter" style={{margin: '15px', color: '#101e45', textDecoration: 'none'}}>View Resumes</NavLink>  
+              <NavLink eventKey="3" to="/upload" style={{margin: '15px', marginTop: '20px', color: '#d71728', textDecoration: 'none'}}>Upload Resumes</NavLink>
               {/* <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>  
               <Nav.Link eventKey="3" href="http://127.0.0.1:8000/" style={{margin: '5px'}}>Resume Parser</Nav.Link>  */}
             </Nav>  
           </Navbar.Collapse>  
         </Container>  
       </Navbar>
+
+
     <div className="d-flex align-items-center justify-content-center" id="background" style={{height: '50vh'}}>
     <Card style={{ width: '80rem', padding: '10px', marginBottom: '40px' }} className="text-center" id="card">
       <h2>Upload CSV File</h2>

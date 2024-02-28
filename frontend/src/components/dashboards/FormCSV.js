@@ -2,8 +2,9 @@
 //keeping only the pure modal form here
 //add ResumeTemplate.js to App.js to see what's in there
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import '../../css/multistep.css';
-import { Form, Card, Button, ProgressBar, ListGroup, Modal, Badge, Row, Col, Container, Nav, Navbar, NavLink } from 'react-bootstrap';
+import { Form, Card, Button, ProgressBar, ListGroup, Modal, Badge, Row, Col, Container, Nav, Navbar } from 'react-bootstrap';
 import EducationModalForm from '../modal-forms/EducationModal'
 import ExperienceModalForm from '../modal-forms/ExperienceModal'
 import CertificationsModalForm from '../modal-forms/CertificationsModal'
@@ -98,10 +99,10 @@ function FormCSV() {
     <Helmet>
         <title>Talentco | Resume Form</title>
     </Helmet>
-    <Navbar collapseOnSelect expand="lg" id="navbar1" variant="dark" sticky="top" height="60px" style={{height: '80px'}}>  
+    <Navbar collapseOnSelect expand="lg" variant="dark" sticky="top" id="navbar1" className="nav" style={{height: '80px'}}>  
         <Container>  
           <Navbar.Brand href="#" style={{fontSize: 18, color: '#101e45'}}>
-            <img src="img/logo_small.png" alt="brand-logo" height="40" width="34" style={{marginRight: '7px'}}/>
+            <img src="img/logo_small.png" alt="brand-logo" height="40" width="34" style={{marginRight: '10px'}}/>
             TalentCo Resume Management
           </Navbar.Brand>  
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />  
@@ -110,16 +111,16 @@ function FormCSV() {
               {/* <Nav.Link href="#features">Link 1</Nav.Link>  
               <Nav.Link href="#pricing">Link 2</Nav.Link>    */}
             </Nav>  
-            <Nav variant="pills" activeKey="1">
-              <NavLink eventKey="1" href="/dynamicform" style={{margin: '5px', backgroundColor: "#101e45"}}>Resume Form</NavLink>  
-              <NavLink eventKey="2" href="/filter" style={{margin: '5px', color: '#101e45'}}>View Resumes</NavLink>
-              <NavLink eventKey="3" href="/upload" style={{margin: '5px', color: '#101e45'}}>Upload Resumes</NavLink>  
-              {/* <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>
-              <Nav.Link eventKey="3" href="http://127.0.0.1:8000/" style={{margin: '5px'}}>Resume Parser</Nav.Link>     */}
+            <Nav activeKey="1">
+              <NavLink eventKey="1" to="/form" style={{margin: '15px', marginTop: '20px', color: '#d71728', textDecoration: 'none'}}>Resume Form</NavLink>  
+              <NavLink className="nav-link" eventKey="2" to="/filter" style={{margin: '15px', color: '#101e45', textDecoration: 'none'}}>View Resumes</NavLink>  
+              <NavLink eventKey="3" to="/upload" style={{margin: '15px', marginTop: '20px', color: '#101e45', textDecoration: 'none'}}>Upload Resumes</NavLink>
+              {/* <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>  
+              <Nav.Link eventKey="3" href="http://127.0.0.1:8000/" style={{margin: '5px'}}>Resume Parser</Nav.Link>  */}
             </Nav>  
           </Navbar.Collapse>  
         </Container>  
-      </Navbar>  
+      </Navbar>
      
     <div className="d-flex align-items-center justify-content-center" id="background">
     <Card style={{ width: '80rem', padding: '10px', marginTop: '40px', marginBottom: '40px' }} className="text-center" id="card">
