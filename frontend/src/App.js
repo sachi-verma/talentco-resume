@@ -39,7 +39,8 @@ import AdminDashboard from './components/dashboards/AdminDashboard';
 import LoginForm from './components/auth/LoginForm';
 import RegisterForm from './components/auth/RegisterForm';
 // import { getToken } from './services/authService';
-import ProtectedRoutes from './utils/ProtectedRoutes'
+import ProtectedRoutes from './utils/ProtectedRoutes';
+import ProtectedRoute from './utils2/ProtectedRoute';
 import Resume from './components/dashboards/Resume';
 import UserForm from './components/dashboards/ResumeForm';
 import FormComponent from './components/dashboards/FormComponent';
@@ -51,6 +52,7 @@ import DynamicForm from './components/dashboards/DynamicResume';
 import DjangoFilter from './components/dashboards/DjangoFilter';
 import CSVUploadForm from './components/dashboards/UploadCSV';
 import FormCSV from './components/dashboards/FormCSV'
+import LoginAuth from './components/auth/Login'
 
 
 
@@ -67,19 +69,19 @@ const App = () => {
     <Router>
       <div>
         <Routes>
-          <Route path="/" element={<ResumeBuilder />}exact></Route>
-          <Route path="/client-dashboard" element={<ClientDashboard />} />
+          {/* <Route path="/" element={<ResumeBuilder />}exact></Route> */}
+          {/* <Route path="/client-dashboard" element={<ClientDashboard />} />
           <Route path="/resume" element={<Resume />} />
           <Route path="/resumeform" element={<UserForm />} />
           <Route path="/formcomponent" element={<FormComponent />} />
           <Route path="/stepform" element={<StepForm />} />
           <Route path="/multistepform" element={<MultiStepForm />} />
-          <Route path="/singlepageform" element={<SinglePageForm />} />
+          <Route path="/singlepageform" element={<SinglePageForm />} /> */}
           <Route path="/filter" element={<GridExample />} />
-          <Route path="/dynamicform" element={<DynamicForm />} />
-          <Route path="/djangofilter" element={<DjangoFilter />} />
+          {/* <Route path="/dynamicform" element={<DynamicForm />} />
+          <Route path="/djangofilter" element={<DjangoFilter />} /> */}
           <Route path="/upload" element={<CSVUploadForm />} />
-          <Route path="/form" element={<FormCSV />} />
+          <Route path="/" element={<FormCSV />} />
 
 
 
@@ -90,12 +92,18 @@ const App = () => {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />  */}
           {/* <Navigate to="/login" /> */}
-          <Route element={<ProtectedRoutes />}>
+          {/* <Route element={<ProtectedRoutes />}>
                 <Route path="/client-dashboard" element={<ClientDashboard />} role="client"/>
                 <Route path="/admin-dashboard" element={<AdminDashboard />} role="admin" />
           </Route>
-          <Route element={<LoginForm />} path="/login"/>
-          <Route path="/register" element={<RegisterForm />} />
+          <Route element={<LoginForm />} path="/loginform"/>
+          <Route path="/registerform" element={<RegisterForm />} /> */}
+
+          {/* <Route element={<ProtectedRoute />}>
+                <Route path="/filter" element={<GridExample />} role="client"/>
+                <Route path="/upload" element={<CSVUploadForm />} role="admin" />
+          </Route>
+          <Route element={<LoginAuth />} path="/login"/> */}
 
         </Routes>
       </div>

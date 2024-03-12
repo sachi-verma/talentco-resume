@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap');
+
 #background{
     /* background-color: #101e45; */
     background-color: #ffffff;
@@ -11,12 +14,100 @@ box-shadow: rgba(6, 0, 63, 0.85) 0px 0px 20px;
 }
 
 #navbar1{
+    background-color: #02224d;
+    /* height: 55px; */
+    /* box-shadow: 0px 1px 10px #999; */
+}
+
+@media only screen and (max-width: 991px) {
+    .navhide {
+      visibility: hidden;
+      overflow: hidden;
+    }
+  }
+
+#nav1header{
+    margin-right: 25px;
+    margin-left: 0px;
+    color: #ffffff;
+    /* font-size: 20px; */
+}
+
+#fa-icon{
+    color: #ffffff;
+}
+
+#navbar2{
     background-color: #ffffff;
-    box-shadow: 0px 1px 10px #999;
+    /* box-shadow: 0px 1px 10px #999; */
+    /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
+    /* box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; */
+    box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.1)
+}
+
+@media only screen and (max-width: 991px) {
+    #navbar2 {
+      margin-top: 0px;
+    }
+  }
+
+#nav2header{
+  font-family: "Jost", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+#nav2item{
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+@media only screen and (max-width: 991px){
+  .navbar-collapse.collapse {
+    background-color: #e0e8f3;
+    border-radius: 10px;
+  }
+  
+  .navbar-collapse.collapsing {
+    background-color: #e0e8f3;
+    border-radius: 10px;
+  }
+  
+  .navbar-nav .dropdown-menu {
+    background-color: #e0e8f3;
+    border-radius: 10px;
+  } 
+}
+
+#navbutton{
+    text-transform: capitalize;
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+#formbutton {
+    text-transform: capitalize;
 }
 
 #navbrand{
     color: #101e45;
+}
+
+#navbar3{
+    background-color: #212121;
+}
+
+#footer2text{
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    
 }
 
 .red .active a,
@@ -44,3 +135,64 @@ box-shadow: rgba(6, 0, 63, 0.85) 0px 0px 20px;
 .nav.nav-pills .nav-link.active {
     background-color: red;
 }
+
+.centered-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color:#ffffff;
+    font-size: 60px;
+    font-weight: bold;
+  }
+
+  .wrapper {
+    position:relative;
+    width:100%;
+    max-width:2000px;
+    height:100%;
+    min-height:400px
+  }
+  .divimage {  position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:url("cover_img.jpg");
+    background-repeat:no-repeat;
+    background-size:cover;
+  }
+  .divtext {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    padding-top:13.5%;  
+    text-align:center;
+    font-size:5vw;
+    color:white;
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+  }
+  @media (min-width: 1200px) {
+    .divtext{
+      font-size:60px;
+    }
+  }
+
+#card1 {
+    /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
+    box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 10px;
+}
+
+.footernav {
+    height: 700px;
+}
+
+@media only screen and (max-width: 991px) {
+    .footernav {
+      height: 1000px;
+    }
+  }

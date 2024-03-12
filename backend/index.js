@@ -9,6 +9,9 @@
         const csvParser = require('csv-parser');
         const fs = require('fs');
         const csv = require('fast-csv');
+        const authRoutes = require('./routes/authRoutes');
+        const { Parser } = require('json2csv');
+
 
         const app = express();
         const port = 3002;
@@ -33,6 +36,8 @@
         }
         console.log('Connected to MySQL as id ' + db.threadId);
         });
+
+        app.use('/auth', authRoutes);
 
         // Multer storage configuration for file uploads
         const storage = multer.diskStorage({
@@ -93,34 +98,127 @@
         //         res.status(200).send('CSV file uploaded and data saved successfully.');
         //       });
         //   });
+        // const storagecsv = multer.diskStorage({
+        //     destination: (req, file, cb) => {
+        //         cb(null, 'csvuploads/'); // Destination folder for uploaded files
+        //     },
+        //     filename: (req, file, cb) => {
+        //         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+        //     }
+        //     });
 
-        const uploadcsv = multer({ dest: 'uploads/' });
-
-        app.post('/upload-csv', uploadcsv.single('file'), (req, res) => {
-            if (!req.file) {
-              return res.status(400).send('No file uploaded.');
+        const storagecsv = multer.diskStorage({
+            destination: (req, file, cb) => {
+                try {
+                    // Specify the destination folder for uploaded files
+                    cb(null, 'csvuploads/');
+                } catch (error) {
+                    // Handle errors
+                    cb(error);
+                }
+            },
+            filename: (req, file, cb) => {
+                try {
+                    // Generate a unique filename for the uploaded file
+                    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+                } catch (error) {
+                    // Handle errors
+                    cb(error);
+                }
             }
-          
-            const results = [];
-            fs.createReadStream(req.file.path)
-              .pipe(csv.parse({ headers: true }))
-              .on('error', error => console.error(error))
-              .on('data', row => {
-                results.push(row);
-              })
-              .on('end', () => {
-                // Insert data into MySQL database
-                const query = 'INSERT INTO csvupload (id, skills, summary, industry, current_location, experience, current_designation, ug_degree, ug_spl, pg_degree, pg_spl, cand_name, func_area, current_company, preferred_location, annual_salary, notice_period, dob, age, marital_status, phone, email, gender, work_permit) VALUES ?';
-                db.query(query, [results.map(Object.values)], (error, response) => {
-                  if (error) {
-                    console.error('Error inserting data:', error);
-                    res.status(500).send('Error inserting data into database.');
-                  } else {
-                    res.status(200).send('CSV file uploaded and data saved successfully.');
-                  }
+        });
+
+
+
+        const uploadcsv = multer({ storage: storagecsv });
+
+       
+// Upload CSV file and save data to the database
+// app.post('/api/upload-csv', uploadcsv.single('file'), (req, res) => {
+//     const { path: filePath, originalname: originalName } = req.file;
+  
+//     // Read CSV file and save data to the database
+//     fs.createReadStream(filePath)
+//       .pipe(csvParser())
+//       .on('data', (row) => {
+//         // Append filename to the row data
+//         row.filename = originalName;
+  
+//         // Insert row data into the database
+//         db.query('INSERT INTO csvupload SET ?', row, (error, results, fields) => {
+//           if (error) throw error;
+//         });
+//       })
+//       .on('end', () => {
+//         // Delete the temporary file after processing
+//         fs.unlinkSync(filePath);
+//         res.sendStatus(200);
+//       });
+//   });
+app.post('/api/upload-csv', uploadcsv.single('file'), (req, res) => {
+    const { path: filePath, originalname: originalName } = req.file;
+
+    try {
+        // Read CSV file and save data to the database
+        fs.createReadStream(filePath)
+            .pipe(csvParser())
+            .on('data', (row) => {
+                // Append filename to the row data
+                row.filename = originalName;
+
+                // Insert row data into the database
+                db.query('INSERT INTO csvupload SET ?', row, (error, results, fields) => {
+                    if (error) throw error;
                 });
-              });
-          });
+            })
+            .on('end', () => {
+                // Delete the temporary file after processing
+                fs.unlinkSync(filePath);
+                res.sendStatus(200);
+            });
+    } catch (error) {
+        // Handle errors, such as file writing errors
+        console.error('Error:', error);
+        res.status(500).send('Error uploading CSV file');
+    }
+});
+  
+
+
+
+
+        
+//CORRECT CODE--------------------------
+        // app.post('/upload-csv', uploadcsv.single('file'), (req, res) => {
+        //     if (!req.file) {
+        //       return res.status(400).send('No file uploaded.');
+        //     }
+          
+        //     const results = [];
+        //     fs.createReadStream(req.file.path)
+        //       .pipe(csv.parse({ headers: true }))
+        //       .on('error', error => console.error(error))
+        //       .on('data', row => {
+        //         results.push(row);
+        //       })
+        //       .on('end', () => {
+        //         // Insert data into MySQL database
+        //         const query = 'INSERT INTO csvupload (id, skills, summary, industry, current_location, experience, current_designation, ug_degree, ug_spl, pg_degree, pg_spl, cand_name, func_area, current_company, preferred_location, annual_salary, notice_period, dob, age, marital_status, phone, email, gender, work_permit) VALUES ?';
+        //         db.query(query, [results.map(Object.values)], (error, response) => {
+        //           if (error) {
+        //             console.error('Error inserting data:', error);
+        //             res.status(500).send('Error inserting data into database.');
+        //           } else {
+        //             res.status(200).send('CSV file uploaded and data saved successfully.');
+        //           }
+        //         });
+        //       });
+        //   });
+
+
+
+
+
   
 
         // // Route to handle form submission
@@ -298,6 +396,76 @@ app.get('/csv-data', (req, res) => {
     });
 });
 
+
+
+
+// Get list of uploaded CSV files
+app.get('/api/csv-files', (req, res) => {
+    db.query('SELECT DISTINCT filename, uploaded_at FROM csvupload WHERE filename IS NOT NULL AND filename <> ""', (error, results, fields) => {
+      if (error) throw error;
+      res.json(results);
+    });
+  });
+  
+  // View CSV file
+  app.get('/api/view-csv/:filename', (req, res) => {
+    const filename = req.params.filename;
+    const filePath = path.join(__dirname, 'csvuploads', filename);
+    res.sendFile(filePath);
+  });
+  
+  // Delete CSV file and its data from the database
+  app.delete('/api/delete-csv/:filename', (req, res) => {
+    const filename = req.params.filename;
+  
+    // Delete data associated with the CSV file
+    db.query('DELETE FROM csvupload WHERE filename = ?', filename, (error, results, fields) => {
+      if (error) throw error;
+    });
+    res.sendStatus(200);
+  });
+
+      // Add a route to download CSV files
+      app.get('/download-csv/:filename', (req, res) => {
+        const filename = req.params.filename;
+        const filePath = path.join(__dirname, 'csvuploads', filename);
+        res.download(filePath, filename, (err) => {
+          if (err) {
+            console.error('Error downloading CSV file:', err);
+            res.status(500).send('Error downloading CSV file');
+          }
+        });
+      });
+
+      // Endpoint to download CSV file based on filename
+app.get('/api/download-csv/:filename', (req, res) => {
+    const filename = req.params.filename;
+
+    // Query the database to fetch data based on the filename
+    db.query('SELECT * FROM csvupload WHERE filename = ?', filename, (error, results) => {
+        if (error) {
+            console.error('Error fetching data:', error);
+            return res.status(500).send('Error fetching data');
+        }
+
+        if (results.length === 0) {
+            return res.status(404).send('No data found for the given filename');
+        }
+
+        // Convert data to CSV format
+        const fields = Object.keys(results[0]);
+        const json2csvParser = new Parser({ fields });
+        const csvData = json2csvParser.parse(results);
+
+        // Set response headers for CSV download
+        res.header('Content-Type', 'text/csv');
+        res.attachment(filename); // Set filename for download
+
+        // Send CSV data as a downloadable file
+        res.send(csvData);
+    });
+});
+  
 
     
 

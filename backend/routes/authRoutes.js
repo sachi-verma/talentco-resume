@@ -16,24 +16,24 @@ const pool = mysql.createPool({
   queueLimit: 0,
 });
 
-router.post('/register', async (req, res) => {
-  try {
-    const { username, password, email, role } = req.body;
-    const hashedPassword = await hashPassword(password);
+// router.post('/register', async (req, res) => {
+//   try {
+//     const { username, password, email, role } = req.body;
+//     const hashedPassword = await hashPassword(password);
 
-    const [results] = await pool.query('INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)', [
-      username,
-      hashedPassword,
-      email,
-      role,
-    ]);
+//     const [results] = await pool.query('INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)', [
+//       username,
+//       hashedPassword,
+//       email,
+//       role,
+//     ]);
 
-    res.status(201).json({ message: 'User registered successfully' });
-  } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-});
+//     res.status(201).json({ message: 'User registered successfully' });
+//   } catch (error) {
+//     console.error('Registration error:', error);
+//     res.status(500).json({ message: 'Internal Server Error' });
+//   }
+// });
 
 router.post('/login', async (req, res) => {
   try {
@@ -70,11 +70,11 @@ router.post('/login', async (req, res) => {
        role = user.role;
      }
 
-    const token = jwt.sign({ username: user.username, userId: user.id, role: user.role }, '9j3nei8s72r4yo23hw8d6ysj89d37g2f9g84wusgh', {
+    const token = jwt.sign({ username: user.username, userId: user.id }, '9j3nei8s72r4yo23hw8d6ysj89d37g2f9g84wusge', {
       expiresIn: '1h',
     });
 
-    res.json({ token, role: user.role });
+    res.json({ token });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ message: 'Internal Server Error' });

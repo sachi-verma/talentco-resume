@@ -129,13 +129,17 @@ function GridExample() {
         );
       }, []);
 
+      const onBtnExport = useCallback(() => {
+        gridRef.current.api.exportDataAsCsv();
+      }, []);
+
     // const pushMeClicked = useCallback( e => {
     //     gridRef.curent.api.deselectAll();
     // })
 
     return (
         <>
-        <Navbar collapseOnSelect expand="lg" variant="dark" sticky="top" id="navbar1" className="nav" style={{height: '80px'}}>  
+        <Navbar collapseOnSelect expand="lg" variant="dark" sticky="top" id="navbar2" className="nav" style={{height: '80px'}}>  
         <Container>  
           <Navbar.Brand href="#" style={{fontSize: 18, color: '#101e45'}}>
             <img src="img/logo_small.png" alt="brand-logo" height="40" width="34" style={{marginRight: '10px'}}/>
@@ -148,7 +152,7 @@ function GridExample() {
               <Nav.Link href="#pricing">Link 2</Nav.Link>    */}
             </Nav>  
             <Nav activeKey="2" >
-              <NavLink eventKey="1" to="/form" style={{margin: '15px', marginTop: '20px', color: '#101e45', textDecoration: 'none'}}>Resume Form</NavLink>  
+              <NavLink eventKey="1" to="/" style={{margin: '15px', marginTop: '20px', color: '#101e45', textDecoration: 'none'}}>Resume Form</NavLink>  
               <NavLink className="nav-link" eventKey="2" to="/filter" style={{margin: '15px', color: '#d71728', textDecoration: 'none'}}>View Resumes</NavLink>  
               <NavLink eventKey="3" to="/upload" style={{margin: '15px', marginTop: '20px', color: '#101e45', textDecoration: 'none'}}>Upload Resumes</NavLink>
               {/* <Nav.Link eventKey="3" href="http://localhost:3000/djangofilter" style={{margin: '5px'}}>Parsed Resumes</Nav.Link>  
@@ -167,18 +171,33 @@ function GridExample() {
             style={{marginLeft: '10px'}}
           />
         </div>   */}
-        <div className='ag-theme-quartz' style={{height: "85vh" }}>
+        <div className='ag-theme-quartz' style={{height: "75vh" }}>
         <Helmet>
         <title>Talentco | View Resumes</title>
         </Helmet>
+        <div style={{marginTop: '15px'}}>
+        <span>Keyword Search:</span>
+          <input
+            type="text"
+            id="filter-text-box"
+            placeholder="Search here..."
+            onInput={onFilterTextBoxChanged}
+            style={{ marginLeft: '5px'}}
+          />
+        <button onClick={onBtnExport} style={{marginLeft: "20px"}}>Download CSV export file</button>
             {/* <button onClick={pushMeClicked}>Push Me</button> */}
+
+        </div>
             <AgGridReact
+                ref={gridRef}
                 onCellClicked={cellClickedListener}
                 rowData={rowData}
                 columnDefs={columnDefs}
                 // rowSelection='multiple'
                 animateRows={true}
-                defaultColDef={defaultColDef}/>
+                defaultColDef={defaultColDef}
+                />
+                
         </div>
         </>
     )
