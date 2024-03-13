@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap');
 
+.html .body{
+    overflow: hidden;
+}
+
 #background{
     /* background-color: #101e45; */
     background-color: #ffffff;
@@ -23,6 +27,9 @@ box-shadow: rgba(6, 0, 63, 0.85) 0px 0px 20px;
     .navhide {
       visibility: hidden;
       overflow: hidden;
+    }
+    .html .body{
+        overflow: hidden;
     }
   }
 
@@ -194,5 +201,15 @@ box-shadow: rgba(6, 0, 63, 0.85) 0px 0px 20px;
 @media only screen and (max-width: 991px) {
     .footernav {
       height: 1000px;
+    }
+  }
+
+/* #commafield{
+    width: 425px;
+} */
+
+@media only screen and (min-width: 768px) {
+    #commafield {
+        width: 425px;
     }
   }

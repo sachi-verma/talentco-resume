@@ -77,9 +77,18 @@ function FormCSV() {
     setFormData({ ...formData, [name]: value });
   };
 
-
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedName, setSelectedName] = useState("");
   const handleFileChange = (e) => {
-    setFormData({ ...formData, resume: e.target.files[0] });
+    const file = e.target.files[0];
+  if (file) {
+    setFormData({ ...formData, resume: file });
+    setSelectedFile(file);
+    setSelectedName(file.name);
+  } else {
+    // Handle the case where no file is selected
+    console.error("No file selected");
+  }
   };
 
 
@@ -230,68 +239,73 @@ function FormCSV() {
       
         {/* Constant Fields */}
 
-    <Container>
+    <Container fluid>
     <Row md={1} lg={2}>
-{/* ----------------------------------------------------------------------------------------------------- */}
+
+
+{/* ---------------------------------PERSONAL DETAILS---------------------------------------------------------- */}
         <Col>
-          <Card className="mx-auto border-0" id="card1" style={{margin: '15px'}}>
+          <Card className="border-0" id="card1" style={{margin: '15px', padding: '20px', alignItems: 'center', marginLeft: '20px', marginRight: '20px', minHeight: '335px'}}>
             {/* <Card.Img variant="top" src="holder.js/100px160" /> */}
             <Card.Body>
               <Card.Title style={{textAlign: 'center', fontSize: '25px', color: '#42558c', marginBottom: '10px'}}><FontAwesomeIcon icon={faUser} style={{color: "#101e45", marginRight: '10px'}} />PERSONAL DETAILS</Card.Title>
               <Card.Text>
-              <Col >
-                <Row style={{margin: '5px'}}>
-                <Col><label style={{textAlign: 'right', color: ''}}>Name:</label></Col>
-                <Col><input type="text" name="candName" value={formData.candName} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
-                </Row>
-              {/* </Col>
+              <Col className="mx-auto">
+                <Row sm={1} md={2}>
+                {/* <Col><label style={{textAlign: 'right'}}>Name:</label></Col> */}
+                <Col><input placeholder="Full Name" type="text" name="candName" value={formData.candName} onChange={handleConstantFieldChange} /></Col>
+                {/* </Row>
+              </Col>
 
-              <Col> */}
-                <Row style={{margin: '5px'}}>
-                <Col><label style={{textAlign: 'right'}}> Date of <br/> birth:</label></Col>
-                <Col><input type="date" name="dob" value={formData.dob} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
+              <Col> 
+                <Row >*/}
+                {/* <Col><label style={{textAlign: 'right'}}> Date of <br/> birth:</label></Col> */}
+                <Col><input type="text" placeholder="Date of Birth"
+                onFocus={(e) => (e.target.type = "date")}
+                onBlur={(e) => (e.target.type = "text")} name="dob" value={formData.dob} 
+                onChange={handleConstantFieldChange} style={{width: '205px'}}/></Col>
                 </Row>
                 {/* </Col>
 
                 <Col> */}
-                    <Row style={{margin: '5px'}}>
+                    {/* <Row >
                     <Col><label style={{textAlign: 'right'}}>Age:</label></Col>
-                <Col><input type="text" name="age" value={formData.age} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
+                <Col><input placeholder="Age" type="text" name="age" value={formData.age} onChange={handleConstantFieldChange} /></Col>
+                </Row> */}
+                {/* </Col>
+
+                <Col> */}
+                    <Row sm={1} md={2}>
+                    {/* <Col><label style={{textAlign: 'right'}}>Phone <br/> Number:</label></Col> */}
+                <Col><input placeholder="Phone" type="text" name="phone" value={formData.phone} onChange={handleConstantFieldChange} /></Col>
+                {/* </Row>
+                </Col>
+
+                <Col > 
+                <Row >*/}
+                {/* <Col><label style={{textAlign: 'right'}}>Email:</label></Col> */}
+                <Col><input placeholder="Email" type="text" name="email" value={formData.email} onChange={handleConstantFieldChange} /></Col>
                 </Row>
                 {/* </Col>
 
                 <Col> */}
-                    <Row style={{margin: '5px'}}>
-                    <Col><label style={{textAlign: 'right'}}>Phone <br/> Number:</label></Col>
-                <Col><input type="text" name="phone" value={formData.phone} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
-                </Row>
-                {/* </Col>
-
-                <Col > */}
-                <Row style={{margin: '5px'}}>
-                <Col><label style={{textAlign: 'right'}}>Email:</label></Col>
-                <Col><input type="text" name="email" value={formData.email} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
-                </Row>
-                {/* </Col>
-
-                <Col> */}
-                    <Row style={{margin: '5px'}}>
-                    <Col><label style={{textAlign: 'right'}}>Gender:</label></Col>
-                    <Col><select name="gender" value={formData.gender} onChange={handleConstantFieldChange} style={{width: '170px'}}>
-                        <option value="">Select Gender</option>
+                    <Row sm={1} md={2}>
+                    {/* <Col><label style={{textAlign: 'right'}}>Gender:</label></Col> */}
+                    <Col><select name="gender" value={formData.gender} onChange={handleConstantFieldChange} style={{width: '205px'}}>
+                        <option value="" selected="selected" disabled="disabled">Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Other">Other</option>
                     </select></Col>
-                </Row>
-                {/* </Col>
+                {/* </Row>
+                </Col>
 
-                <Col> */}
-                <Row style={{margin: '5px'}}>
-                <Col><label style={{textAlign: 'right'}}>Marital <br/> Status:</label></Col>
-                {/* <Col><input type="text" name="maritalStatus" value={formData.maritalStatus} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col> */}
-                <Col><select name="industry" value={formData.industry} onChange={handleConstantFieldChange} style={{width: '170px'}}>
-                <option value="">Select Marital Status</option>
+                <Col> 
+                <Row >*/}
+                {/* <Col><label style={{textAlign: 'right'}}>Marital <br/> Status:</label></Col> */}
+                {/* <Col><input type="text" name="maritalStatus" value={formData.maritalStatus} onChange={handleConstantFieldChange} /></Col> */}
+                <Col><select name="industry" value={formData.industry} onChange={handleConstantFieldChange} style={{width: '205px'}}>
+                <option value="" selected="selected" disabled="disabled">Select Marital Status</option>
                 <option value="Single/Unmarried">Single/Unmarried</option>
                 <option value="Married">Married</option>
                 <option value="Widowed">Widowed</option>
@@ -307,18 +321,19 @@ function FormCSV() {
           </Card>
         </Col>
 
-{/* ----------------------------------------------------------------------------------------------------- */}
+{/* -----------------------------------`CURRENT JOB--------------------------------------------------------- */}
         <Col>
-          <Card className="mx-auto border-0" id="card1" style={{margin: '15px'}}>
+          <Card className="border-0" id="card1" style={{margin: '15px', padding: '20px', alignItems: 'center', marginLeft: '20px', marginRight: '20px'}}>
             {/* <Card.Img variant="top" src="holder.js/100px160" /> */}
             <Card.Body>
               <Card.Title style={{textAlign: 'center', fontSize: '25px', color: '#42558c', marginBottom: '10px'}}><FontAwesomeIcon icon={faBriefcase} style={{color: "#101e45", marginRight: '10px'}}/>CURRENT JOB DETAILS</Card.Title>
               <Card.Text>
-                <Col>
-            <Row style={{margin: '5px'}}>
-            <Col><label style={{textAlign: 'right'}}>Industry:</label></Col>
-            <Col><select name="industry" value={formData.industry} onChange={handleConstantFieldChange} style={{width: '170px'}}>
-                <option value="">Select Industry</option>
+                <Col className="mx-auto">
+                    
+            <Row sm={1} md={2}>
+            {/* <Col><label style={{textAlign: 'right'}}>Industry:</label></Col> */}
+            <Col ><select name="industry" value={formData.industry} onChange={handleConstantFieldChange} style={{width: '205px'}}>
+                <option value="" selected="selected" disabled="disabled">Select Industry</option>
                 <option value="Accounting / Auditing">Accounting / Auditing</option>
                 <option value="Advertising & Marketing ">Advertising & Marketing </option>
                 <option value="Agriculture / Forestry / Fishing">Agriculture / Forestry / Fishing</option>
@@ -404,15 +419,15 @@ function FormCSV() {
 
 
             </select></Col>
-            </Row>
-            </Col>
+            {/*</Row>
+             </Col>
 
-            <Col>
-                <Row style={{margin: '5px'}}>
-                <Col><label style={{textAlign: 'right'}}>Functional <br/> Area:</label></Col>
+            <Col> 
+                <Row >*/}
+                {/* <Col><label style={{textAlign: 'right'}}>Functional <br/> Area:</label></Col> */}
             {/* <Col><input type="text" name="functionalArea" value={formData.functionalArea} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col> */}
-            <Col><select name="functionalArea" value={formData.functionalArea} onChange={handleConstantFieldChange} style={{width: '170px'}}>
-                <option value="">Select Functional Area</option>
+            <Col><select name="functionalArea" value={formData.functionalArea} onChange={handleConstantFieldChange} style={{width: '205px'}}>
+                <option value="" selected="selected" disabled="disabled">Select Functional Area</option>
                 <option value="Actor / Anchor">Actor / Anchor</option>
                 <option value="Actuarial Science">Actuarial Science</option>
                 <option value="Administration / Facility / Transport">Administration / Facility / Transport</option>
@@ -651,40 +666,47 @@ function FormCSV() {
                 
             </select></Col>
             </Row>
+            {/* </Col>
+
+            <Col> */}
+            <Row sm={1} md={2}>
+            {/* <Col><label style={{textAlign: 'right'}}>Current <br/> Company:</label></Col> */}
+            <Col><input placeholder="Current Company" type="text" name="currentCompany" value={formData.currentCompany} onChange={handleConstantFieldChange} /></Col>
+            {/* </Row>
             </Col>
 
-            <Col>
-            <Row style={{margin: '5px'}}>
-            <Col><label style={{textAlign: 'right'}}>Current <br/> Company:</label></Col>
-            <Col><input type="text" name="currentCompany" value={formData.currentCompany} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
+            <Col> 
+                <Row >*/}
+                {/* <Col><label style={{textAlign: 'right'}}>Current <br/> Designation:</label></Col> */}
+            <Col><input placeholder="Current Designation" type="text" name="currentDesignation" value={formData.currentDesignation} onChange={handleConstantFieldChange} /></Col>
             </Row>
-            </Col>
+            {/* </Col>
 
-            <Col>
-                <Row style={{margin: '5px'}}>
-                <Col><label style={{textAlign: 'right'}}>Current <br/> Designation:</label></Col>
-            <Col><input type="text" name="currentDesignation" value={formData.currentDesignation} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
+            <Col> */}
+            <Row sm={1} md={2}>   
+            {/* <Col><label style={{textAlign: 'right'}}>Current <br/> Location:</label></Col> */}
+            <Col><input placeholder="Current Location" type="text" name="currentLocation" value={formData.currentLocation} onChange={handleConstantFieldChange} /></Col>
+             {/* </Row>
+           </Col>
+
+            <Col> 
+            <Row >*/}
+            {/* <Col><label style={{textAlign: 'right'}}>Annual <br/> Salary:</label></Col> */}
+            <Col><input placeholder="Annual Salary" type="text" name="annualSalary" value={formData.annualSalary} onChange={handleConstantFieldChange} /></Col>
             </Row>
-            </Col>
+            {/* </Col>
 
-            <Col>
-            <Row style={{margin: '5px'}}>   
-            <Col><label style={{textAlign: 'right'}}>Current <br/> Location:</label></Col>
-            <Col><input type="text" name="currentLocation" value={formData.currentLocation} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
-            </Row>
-            </Col>
+            <Col> */}
+                <Row sm={1} md={2}>
+                {/* <Col><label style={{textAlign: 'right'}}>Notice Period: <br/> (days)</label></Col> */}
+            <Col><input placeholder="Notice Period" type="text" name="noticePeriod" value={formData.noticePeriod} onChange={handleConstantFieldChange} /></Col>
+            {/* </Row>
 
-            <Col>
-            <Row style={{margin: '5px'}}>
-            <Col><label style={{textAlign: 'right'}}>Annual <br/> Salary:</label></Col>
-            <Col><input type="text" name="annualSalary" value={formData.annualSalary} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
-            </Row>
+            <Row > */}
+                {/* <Col><label style={{textAlign: 'right'}}>Notice Period: <br/> (days)</label></Col> */}
+            <Col> <input style={{marginLeft: 10, display: "none"}} type="file" id="files" name="resume" onChange={handleFileChange} placeholder="upload your resume" accept=".doc,.pdf"/>
+            <button><label for="files">Upload Your Resume</label></button><p>{selectedName}</p>
             </Col>
-
-            <Col>
-                <Row style={{margin: '5px'}}>
-                <Col><label style={{textAlign: 'right'}}>Notice Period: <br/> (days)</label></Col>
-            <Col><input type="text" name="noticePeriod" value={formData.noticePeriod} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
             </Row>
             </Col>
               </Card.Text>
@@ -693,43 +715,43 @@ function FormCSV() {
         </Col>
 
 
-{/* ----------------------------------------------------------------------------------------------------- */}
+{/* -------------------------PROFILE OVERVIEW-------------------------------------------------------------- */}
 
         <Col className='align-items-center justify-content-center'>
-          <Card className="mx-auto border-0" id="card1" style={{margin: '15px'}}>
+          <Card className="border-0" id="card1" style={{margin: '15px', padding: '20px', alignItems: 'center', marginLeft: '20px', marginRight: '20px'}}>
             {/* <Card.Img variant="top" src="holder.js/100px160" /> */}
             <Card.Body>
             <Card.Title style={{textAlign: 'center', fontSize: '25px', color: '#42558c', marginBottom: '10px'}}><FontAwesomeIcon icon={faRectangleList} style={{color: "#101e45", marginRight: '10px'}}/>PROFILE OVERVIEW</Card.Title>
               <Card.Text>
-              <Col>
-                <Row style={{margin: '5px'}}>
-                <Col><label style={{textAlign: 'right'}}>Experience: <br/> (in years)</label></Col>
-                <Col><input type="text" name="experience" value={formData.experience} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
-                </Row>
+              <Col className="mx-auto">
+                <Row sm={1} md={2}>
+                {/* <Col><label style={{textAlign: 'right'}}>Experience: <br/> (in years)</label></Col> */}
+                <Col><input placeholder="Experience (in years)" type="text" name="experience" value={formData.experience} onChange={handleConstantFieldChange} /></Col>
+                {/* </Row>
                 </Col>
 
                 <Col>
-                <Row style={{margin: '5px'}}>
-                <Col><label style={{textAlign: 'right'}}> Summary: </label ></Col>
-                <Col><input type="text" name="summary" value={formData.summary} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
+                <Row > */}
+                {/* <Col><label style={{textAlign: 'right'}}> Summary: </label ></Col> */}
+                <Col><input placeholder="Summary" type="text" name="summary" value={formData.summary} onChange={handleConstantFieldChange} /></Col>
+                </Row>
+                {/* </Col>
+
+                <Col> */}
+                <Row >
+                {/* <Col><label style={{textAlign: 'right'}}> Key Skills: </label></Col> */}
+                <Col><input placeholder="Skills separated by commas" type="text" name="keySkills" value={formData.keySkills} onChange={handleConstantFieldChange} id="commafield"/></Col>
+                </Row>
+                {/* </Col>
+
+                <Col> */}
+                <Row >
+                {/* <Col><label style={{textAlign: 'right'}}>Preferred <br/> Location:</label></Col> */}
+                <Col><input placeholder="Preferred Locations separated by commas" type="text" name="preferredLocation" value={formData.preferredLocation} onChange={handleConstantFieldChange} id="commafield"/></Col>
                 </Row>
                 </Col>
 
-                <Col>
-                <Row style={{margin: '5px'}}>
-                <Col><label style={{textAlign: 'right'}}> Key Skills: </label></Col>
-                <Col><input type="text" name="keySkills" value={formData.keySkills} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
-                </Row>
-                </Col>
-
-                <Col>
-                    <Row style={{margin: '5px'}}>
-                    <Col><label style={{textAlign: 'right'}}>Preferred <br/> Location:</label></Col>
-                <Col><input type="text" name="preferredLocation" value={formData.preferredLocation} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
-                </Row>
-                </Col>
-
-                <Col>
+                {/* <Col>
                 <Row style={{margin: '5px'}}>
                 <Col><label style={{textAlign: 'right'}}>USA Work <br/> Permit?</label></Col>
                 <Col><select name="workPermit" value={formData.workPermit} onChange={handleConstantFieldChange} style={{width: '170px'}}>
@@ -738,7 +760,7 @@ function FormCSV() {
                         <option value="No">No</option>
                     </select></Col>
                 </Row>
-                </Col>
+                </Col> */}
               </Card.Text>
             </Card.Body>
           </Card>
@@ -747,36 +769,36 @@ function FormCSV() {
 {/* ----------------------------------------------------------------------------------------------------- */}
 
         <Col>
-          <Card className="mx-auto border-0" id="card1" style={{margin: '15px'}}>
+          <Card className="border-0" id="card1" style={{margin: '15px', padding: '20px', alignItems: 'center', marginLeft: '20px', marginRight: '20px', minHeight: '260px'}}>
             {/* <Card.Img variant="top" src="holder.js/100px160" /> */}
             <Card.Body>
             <Card.Title style={{textAlign: 'center', fontSize: '25px', color: '#42558c', marginBottom: '10px'}}><FontAwesomeIcon icon={faGraduationCap} style={{color: "#101e45", marginRight: '10px'}}/>EDUCATION DETAILS</Card.Title>
               <Card.Text>
-              <Col >
-                <Row style={{margin: '5px'}}>
-                <Col><label style={{textAlign: 'right'}}>Undergraduate <br/> Degree:</label></Col>
-                <Col><input type="text" name="ugDegree" value={formData.ugDegree} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
+              <Col className="mx-auto">
+                <Row sm={1} md={2}>
+                {/* <Col><label style={{textAlign: 'right'}}>Undergraduate <br/> Degree:</label></Col> */}
+                <Col><input placeholder="Undergraduate Degree" type="text" name="ugDegree" value={formData.ugDegree} onChange={handleConstantFieldChange} /></Col>
+                {/* </Row>
+                </Col>
+
+                <Col >
+                    <Row > */}
+                {/* <Col> <label style={{textAlign: 'right'}}>Undergraduate <br/> Specialization:</label></Col> */}
+                <Col><input placeholder="Undergraduate Specialization" type="text" name="ugSpecialization" value={formData.ugSpecialization} onChange={handleConstantFieldChange} /></Col>
                 </Row>
+                {/* </Col>
+
+                <Col> */}
+                <Row sm={1} md={2}>
+                {/* <Col><label style={{textAlign: 'right'}}>Postgraduate <br/> Degree:</label></Col> */}
+                <Col><input placeholder="Postgraduate Degree" type="text" name="pgDegree" value={formData.pgDegree} onChange={handleConstantFieldChange} /></Col>
+                {/* </Row>
                 </Col>
 
                 <Col>
-                    <Row style={{margin: '5px'}}>
-                <Col> <label style={{textAlign: 'right'}}>Undergraduate <br/> Specialization:</label></Col>
-                <Col><input type="text" name="ugSpecialization" value={formData.ugSpecialization} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
-                </Row>
-                </Col>
-
-                <Col>
-                <Row style={{margin: '5px'}}>
-                <Col><label style={{textAlign: 'right'}}>Postgraduate <br/> Degree:</label></Col>
-                <Col><input type="text" name="pgDegree" value={formData.pgDegree} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
-                </Row>
-                </Col>
-
-                <Col>
-                    <Row style={{margin: '5px'}}>
-                    <Col><label style={{textAlign: 'right'}}>Postgraduate <br/> Specialization:</label></Col>
-                <Col><input type="text" name="pgSpecialization" value={formData.pgSpecialization} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col>
+                    <Row > */}
+                    {/* <Col><label style={{textAlign: 'right'}}>Postgraduate <br/> Specialization:</label></Col> */}
+                <Col><input placeholder="Postgraduate Specialization" type="text" name="pgSpecialization" value={formData.pgSpecialization} onChange={handleConstantFieldChange} /></Col>
                 </Row>
                 </Col>
               </Card.Text>
@@ -791,10 +813,14 @@ function FormCSV() {
       {/* <label>Willing to Relocate?
         <input type="checkbox" name="willingToRelocate" style={{height:15, width: 15, marginLeft: 10}} checked={formData.willingToRelocate} onChange={(e) => handleConstantCheckboxChange(e)} />
         </label>  */}
-        <div style={{textAlign: 'center'}}>
-        <label style={{marginLeft: '80px', marginTop: '20px'}}> Upload your Resume: 
-        <input style={{marginLeft: 10}} type="file" name="resume" onChange={handleFileChange} /></label>
-        <p style={{color: '#ff0000'}}>*Note: Max size of resume .pdf/.doc file is 1 Mb</p>
+        {/* <div style={{textAlign: 'center'}}>
+        <label style={{marginLeft: '80px', marginTop: '20px'}}> Upload your Resume: </label>
+        <input style={{marginLeft: 10}} type="file" id="files" name="resume" onChange={handleFileChange} placeholder="upload your resume"/>
+        <label for="files">Select file</label>
+        <p style={{color: '#ff0000'}}>*Note: Max size of resume .pdf/.doc file is 1 Mb</p> */}
+
+        
+        
         
         
         
@@ -802,8 +828,8 @@ function FormCSV() {
         
         {/* <button type="submit">Submit</button> */}
         
-       
-        <Button className='mx-auto' id="formbutton" onClick={handleSubmit} style={{width: '200px', fontSize: '20px', marginBottom: '50px', backgroundColor: '#42558c'}}>Submit</Button>
+        <div style={{textAlign: 'center'}}>
+        <Button className='mx-auto border-0' id="formbutton" onClick={handleSubmit} style={{width: '200px', fontSize: '20px', marginBottom: '50px', marginTop: '20px', backgroundColor: '#02224d'}}>Submit</Button>
         </div>
 
         </Container>
