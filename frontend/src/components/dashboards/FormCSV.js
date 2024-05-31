@@ -13,7 +13,7 @@ import { MdAddCircleOutline, MdEdit, MdClose, MdDelete } from 'react-icons/md';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeadset, faEnvelope, faLocationDot, faAngleDown, faBars, faUser, faBriefcase, faRectangleList, faGraduationCap, faCaretRight } from '@fortawesome/free-solid-svg-icons'
+import { faHeadset, faEnvelope, faLocationDot, faAngleDown, faBars, faUser, faBriefcase, faRectangleList, faGraduationCap, faCaretRight, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
 import { faLinkedin, faFacebookF, faYoutube, faInstagram, faWhatsapp } from "@fortawesome/free-brands-svg-icons"
 import { faEnvelope as regularEnvelope } from '@fortawesome/free-regular-svg-icons';
   
@@ -45,6 +45,14 @@ function FormCSV() {
     resume: null,
   });
 
+   // Validation state for each field
+   const [validationErrors, setValidationErrors] = useState({
+    candName: false,
+    phone: false,
+    email: false,
+    // Other form fields...
+  });
+
   const mappedData = {
     skills: formData.keySkills,
     summary: formData.summary,
@@ -72,13 +80,32 @@ function FormCSV() {
     resume: formData.resume,
   };
 
+  const [errors, setErrors] = useState({
+    candName: false,
+    phone: false,
+    email: false,
+    // Other form fields...
+  });
+
   const handleConstantFieldChange = (e) => {
     const { name, value } = e.target;
+    // console.log('Name:', name);
+    // console.log('Value:', value);
     setFormData({ ...formData, [name]: value });
+   
+  };
+
+  const isFormValid = () => {
+    return (
+        formData.candName.trim() !== '' && 
+        formData.email.trim() !== '' && 
+        formData.phone.trim() !== ''
+    );
   };
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedName, setSelectedName] = useState("");
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
   if (file) {
@@ -94,15 +121,34 @@ function FormCSV() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform form submission logic
-    // console.log(formData);
-    try {
-        await axios.post('http://localhost:3002/submit-form-csv', mappedData);
+
+     // Check if any validation errors exist
+     const isValid = Object.values(validationErrors).every((error) => !error);
+
+     const hasError = Object.values(errors).some(error => error);
+     
+    //if (isFormValid) {
+        // Perform form submission logic
+        // console.log(formData);
+        try {
+        const formData = new FormData();
+        formData.append('resume', selectedFile);
+        await axios.post('http://localhost:3002/submit-form-csv', mappedData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        console.log(mappedData)
         alert('Form submitted successfully!');
       } catch (error) {
         console.error('Error submitting form:', error);
         alert('Error submitting form. Please try again later.');
       }
+    //}else {
+        // Show error message or handle validation errors
+        //alert('Please fill in all required fields.');   
+      //}
+   
   };
 
     const [showAbout, setShowAbout] = useState(false);
@@ -169,10 +215,11 @@ function FormCSV() {
           <Navbar.Brand style={{fontSize: 18, color: '#101e45'}}>
             <a href="https://talentcohr.com/"><img src="img/Talentco-logo-01.jpg" alt="brand-logo" height="50" width="180" style={{marginRight: '10px'}}/></a>
           </Navbar.Brand>  
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" style={{ backgroundColor: '#02224d'}}> <FontAwesomeIcon icon={faBars} /> </Navbar.Toggle>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" style={{ borderStyle: 'none', height: '30px'}}> <FontAwesomeIcon icon={faEllipsisVertical} style={{color: '#02224d', fontSize: '20px'}}/><FontAwesomeIcon icon={faEllipsisVertical} style={{color: '#02224d', fontSize: '20px'}}/><FontAwesomeIcon icon={faEllipsisVertical} style={{color: '#02224d', fontSize: '20px'}}/> </Navbar.Toggle>
           <Navbar.Collapse id="responsive-navbar-nav" class="navbar-collapse">  
             <Nav className="me-auto">  
-              <Nav.Link href="https://talentcohr.com/" style={{color: '#42558c', marginLeft: '30px', fontSize: '18px'}} id="nav2header">Home</Nav.Link> 
+              <Nav.Link href="https://talentcohr.com/" style={{color: '#42558c', marginLeft: '30px', fontSize: '18px'}} id="nav2header">Home</Nav.Link>
+              {/* <NavLink className="nav-link" to="/filter" style={{margin: '15px', color: '#101e45', textDecoration: 'none'}}>View Resumes</NavLink>   */}
 
               <NavDropdown className="border-0 rounded-0" style={{color: '#42558c', marginLeft: '20px', fontSize: '18px', fontWeight: 'bold'}} title={<span className="my-auto" style={{color: '#42558c'}}>About Us<FontAwesomeIcon icon={faAngleDown} style={{marginLeft: '5px', fontSize: '11px'}}/></span>} show={showAbout} onMouseEnter={showAboutDropdown} onMouseLeave={hideAboutDropdown} id="nav2header" >
                 <NavDropdown.Item className="border-0 rounded-0" href="https://talentcohr.com/why-talentco/" style={{fontSize: '17px', width:'200px'}} id="nav2item">Why TalentCo</NavDropdown.Item>
@@ -253,7 +300,8 @@ function FormCSV() {
               <Col className="mx-auto">
                 <Row sm={1} md={2}>
                 {/* <Col><label style={{textAlign: 'right'}}>Name:</label></Col> */}
-                <Col><input placeholder="Full Name" type="text" name="candName" value={formData.candName} onChange={handleConstantFieldChange} /></Col>
+                <Col><input placeholder="Full Name" type="text" name="candName" value={formData.candName} onChange={handleConstantFieldChange}/>
+                </Col>
                 {/* </Row>
               </Col>
 
@@ -264,7 +312,9 @@ function FormCSV() {
                 onFocus={(e) => (e.target.type = "date")}
                 onBlur={(e) => (e.target.type = "text")} name="dob" value={formData.dob} 
                 onChange={handleConstantFieldChange} style={{width: '205px'}}/></Col>
+                 {/* <Col><input type="date" name="dob" value={formData.dob} onChange={handleConstantFieldChange} style={{width: '205px'}}/></Col> */}
                 </Row>
+                 
                 {/* </Col>
 
                 <Col> */}
@@ -277,14 +327,16 @@ function FormCSV() {
                 <Col> */}
                     <Row sm={1} md={2}>
                     {/* <Col><label style={{textAlign: 'right'}}>Phone <br/> Number:</label></Col> */}
-                <Col><input placeholder="Phone" type="text" name="phone" value={formData.phone} onChange={handleConstantFieldChange} /></Col>
+                <Col><input placeholder="Phone" type="text" name="phone" value={formData.phone} onChange={handleConstantFieldChange} />
+                </Col>
                 {/* </Row>
                 </Col>
 
                 <Col > 
                 <Row >*/}
                 {/* <Col><label style={{textAlign: 'right'}}>Email:</label></Col> */}
-                <Col><input placeholder="Email" type="text" name="email" value={formData.email} onChange={handleConstantFieldChange} /></Col>
+                <Col><input placeholder="Email" type="text" name="email" value={formData.email} onChange={handleConstantFieldChange} />
+                </Col>
                 </Row>
                 {/* </Col>
 
@@ -292,7 +344,8 @@ function FormCSV() {
                     <Row sm={1} md={2}>
                     {/* <Col><label style={{textAlign: 'right'}}>Gender:</label></Col> */}
                     <Col><select name="gender" value={formData.gender} onChange={handleConstantFieldChange} style={{width: '205px'}}>
-                        <option value="" selected="selected" disabled="disabled">Select Gender</option>
+                        {/* <option value="" selected="selected" disabled="disabled">Select Gender</option> */}
+                        <option value="0" style={{display: "none"}}>Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Other">Other</option>
@@ -304,8 +357,9 @@ function FormCSV() {
                 <Row >*/}
                 {/* <Col><label style={{textAlign: 'right'}}>Marital <br/> Status:</label></Col> */}
                 {/* <Col><input type="text" name="maritalStatus" value={formData.maritalStatus} onChange={handleConstantFieldChange} /></Col> */}
-                <Col><select name="industry" value={formData.industry} onChange={handleConstantFieldChange} style={{width: '205px'}}>
-                <option value="" selected="selected" disabled="disabled">Select Marital Status</option>
+                <Col><select name="maritalStatus" value={formData.industry} onChange={handleConstantFieldChange} style={{width: '205px'}}>
+                {/* <option value="" selected="selected" disabled="disabled">Select Marital Status</option> */}
+                <option value="0" style={{display: "none"}}>Select Marital Status</option>
                 <option value="Single/Unmarried">Single/Unmarried</option>
                 <option value="Married">Married</option>
                 <option value="Widowed">Widowed</option>
@@ -321,7 +375,7 @@ function FormCSV() {
           </Card>
         </Col>
 
-{/* -----------------------------------`CURRENT JOB--------------------------------------------------------- */}
+{/* -------------------------------------CURRENT JOB--------------------------------------------------------- */}
         <Col>
           <Card className="border-0" id="card1" style={{margin: '15px', padding: '20px', alignItems: 'center', marginLeft: '20px', marginRight: '20px'}}>
             {/* <Card.Img variant="top" src="holder.js/100px160" /> */}
@@ -333,89 +387,91 @@ function FormCSV() {
             <Row sm={1} md={2}>
             {/* <Col><label style={{textAlign: 'right'}}>Industry:</label></Col> */}
             <Col ><select name="industry" value={formData.industry} onChange={handleConstantFieldChange} style={{width: '205px'}}>
-                <option value="" selected="selected" disabled="disabled">Select Industry</option>
-                <option value="Accounting / Auditing">Accounting / Auditing</option>
-                <option value="Advertising & Marketing ">Advertising & Marketing </option>
-                <option value="Agriculture / Forestry / Fishing">Agriculture / Forestry / Fishing</option>
-                <option value="Analytics / KPO / Research   ">Analytics / KPO / Research   </option>
-                <option value="Animation & VFX">Animation & VFX</option>
-                <option value="Architecture / Interior Design">Architecture / Interior Design</option>
-                <option value="Auto Components">Auto Components</option>
-                <option value="Automobile">Automobile</option>
-                <option value="Aviation">Aviation</option>
-                <option value="Banking">Banking</option>
-                <option value="Beauty & Personal Care">Beauty & Personal Care</option>
-                <option value="Beverage">Beverage</option>
-                <option value="Biotechnology">Biotechnology</option>
-                <option value="BPO / Call Centre">BPO / Call Centre</option>
-                <option value="Building Material">Building Material</option>
-                <option value="Chemicals">Chemicals</option>
-                <option value="Clinical Research / Contract Research">Clinical Research / Contract Research</option>
-                <option value="Consumer Electronics & Appliances">Consumer Electronics & Appliances</option>
-                <option value="Content Development / Language">Content Development / Language</option>
-                <option value="Courier / Logistics">Courier / Logistics</option>
-                <option value="Defence & Aerospace">Defence & Aerospace</option>
-                <option value="Design">Design</option>
-                <option value="Education / Training">Education / Training</option>
-                <option value="E-Learning / EdTech">E-Learning / EdTech</option>
-                <option value="Electrical Equipment">Electrical Equipment</option>
-                <option value="Electronic Components / Semiconductors">Electronic Components / Semiconductors</option>
-                <option value="Electronics Manufacturing">Electronics Manufacturing</option>
-                <option value="Emerging Technologies">Emerging Technologies</option>
-                <option value="Engineering & Construction">Engineering & Construction</option>
-                <option value="Events / Live Entertainment">Events / Live Entertainment</option>
-                <option value="Facility Management Services ">Facility Management Services   </option>
-                <option value="Fertilizers / Pesticides / Agro chemicals">Fertilizers / Pesticides / Agro chemicals</option>
-                <option value="Film / Music / Entertainment">Film / Music / Entertainment</option>
-                <option value="Financial Services">Financial Services</option>
-                <option value="FinTech / Payments">FinTech / Payments</option>
-                <option value="Fitness & Wellness">Fitness & Wellness</option>
-                <option value="FMCG">FMCG</option>
-                <option value="Food Processing  ">Food Processing </option>
-                <option value="Furniture & Furnishing">Furniture & Furnishing</option>
-                <option value="Gaming">Gaming</option>
-                <option value="Gems & Jewellery">Gems & Jewellery</option>
-                <option value="Government / Public Administration">Government / Public Administration</option>
-                <option value="Hardware & Networking">Hardware & Networking</option>
-                <option value="Hotels & Restaurants">Hotels & Restaurants</option>
-                <option value="Import & Export">Import & Export</option>
-                <option value="Industrial Automation">Industrial Automation</option>
-                <option value="Industrial Equipment / Machinery">Industrial Equipment / Machinery</option>
-                <option value="Insurance">Insurance</option>
-                <option value="Internet">Internet</option>
-                <option value="Investment Banking / Venture Capital / Private Equity">Investment Banking / Venture Capital / Private Equity</option>
-                <option value="Iron & Steel">Iron & Steel</option>
-                <option value="IT Services & Consulting">IT Services & Consulting</option>
-                <option value="Law Enforcement / Security Services">Law Enforcement / Security Services</option>
-                <option value="Leather">Leather</option>
-                <option value="Legal">Legal</option>
-                <option value="Management Consulting">Management Consulting</option>
-                <option value="Medical Devices & Equipment">Medical Devices & Equipment</option>
-                <option value="Medical Services / Hospital">Medical Services / Hospital</option>
-                <option value="Metals & Mining">Metals & Mining</option>
-                <option value="NBFC">NBFC</option>
-                <option value="NGO / Social Services / Industry Associations">NGO / Social Services / Industry Associations</option>
-                <option value="Oil & Gas">Oil & Gas</option>
-                <option value="Packaging & Containers">Packaging & Containers</option>
-                <option value="Petrochemical / Plastics / Rubber">Petrochemical / Plastics / Rubber</option>
-                <option value="Pharmaceutical & Life Sciences">Pharmaceutical & Life Sciences</option>
-                <option value="Ports & Shipping">Ports & Shipping</option>
-                <option value="Power">Power</option>
-                <option value="Printing & Publishing">Printing & Publishing</option>
-                <option value="Pulp & Paper">Pulp & Paper</option>
-                <option value="Railways">Railways</option>
-                <option value="Real Estate">Real Estate</option>
-                <option value="Recruitment / Staffing">Recruitment / Staffing</option>
-                <option value="Retail">Retail</option>
-                <option value="Software Product">Software Product</option>
-                <option value="Sports / Leisure & Recreation">Sports / Leisure & Recreation</option>
-                <option value="Telecom / ISP">Telecom / ISP</option>
-                <option value="Textile & Apparel">Textile & Apparel</option>
-                <option value="Travel & Tourism">Travel & Tourism</option>
-                <option value="TV / Radio">TV / Radio</option>
-                <option value="Urban Transport">Urban Transport</option>
-                <option value="Water Treatment / Waste Management">Water Treatment / Waste Management</option>
-                <option value="Miscellaneous">Miscellaneous</option>
+                {/* <option value="" selected="selected" disabled="disabled">Select Industry</option> */}
+                <option value="0" style={{display: "none"}}>Select Industry</option>
+                  <option value="Accounting / Auditing">Accounting / Auditing</option>
+                  <option value="Advertising and Marketing">Advertising and Marketing</option>
+                  <option value="Agriculture / Forestry / Fishing">Agriculture / Forestry / Fishing</option>
+                  <option value="Analytics / KPO / Research">Analytics / KPO / Research</option>
+                  <option value="Animation and VFX">Animation and VFX</option>
+                  <option value="Architecture / Interior Design">Architecture / Interior Design</option>
+                  <option value="Auto Components">Auto Components</option>
+                  <option value="Automobile">Automobile</option>
+                  <option value="Aviation">Aviation</option>
+                  <option value="Banking">Banking</option>
+                  <option value="Beauty and Personal Care">Beauty and Personal Care</option>
+                  <option value="Beverage">Beverage</option>
+                  <option value="Biotechnology">Biotechnology</option>
+                  <option value="BPO / Call Centre">BPO / Call Centre</option>
+                  <option value="Building Material">Building Material</option>
+                  <option value="Chemicals">Chemicals</option>
+                  <option value="Clinical Research / Contract Research">Clinical Research / Contract Research</option>
+                  <option value="Consumer Electronics and Appliances">Consumer Electronics and Appliances</option>
+                  <option value="Content Development / Language">Content Development / Language</option>
+                  <option value="Courier / Logistics">Courier / Logistics</option>
+                  <option value="Defence and Aerospace">Defence and Aerospace</option>
+                  <option value="Design">Design</option>
+                  <option value="E-Learning / EdTech">E-Learning / EdTech</option>
+                  <option value="Education / Training">Education / Training</option>
+                  <option value="Electrical Equipment">Electrical Equipment</option>
+                  <option value="Electronic Components / Semiconductors">Electronic Components / Semiconductors</option>
+                  <option value="Electronics Manufacturing">Electronics Manufacturing</option>
+                  <option value="Emerging Technologies">Emerging Technologies</option>
+                  <option value="Engineering and Construction">Engineering and Construction</option>
+                  <option value="Events / Live Entertainment">Events / Live Entertainment</option>
+                  <option value="Facility Management Services">Facility Management Services</option>
+                  <option value="Fertilizers / Pesticides / Agro chemicals">Fertilizers / Pesticides / Agro chemicals</option>
+                  <option value="Film / Music / Entertainment">Film / Music / Entertainment</option>
+                  <option value="Financial Services">Financial Services</option>
+                  <option value="FinTech / Payments">FinTech / Payments</option>
+                  <option value="Fitness and Wellness">Fitness and Wellness</option>
+                  <option value="FMCG">FMCG</option>
+                  <option value="Food Processing">Food Processing</option>
+                  <option value="Furniture and Furnishing">Furniture and Furnishing</option>
+                  <option value="Gaming">Gaming</option>
+                  <option value="Gems and Jewellery">Gems and Jewellery</option>
+                  <option value="Government / Public Administration">Government / Public Administration</option>
+                  <option value="Hardware and Networking">Hardware and Networking</option>
+                  <option value="Hotels and Restaurants">Hotels and Restaurants</option>
+                  <option value="Import and Export">Import and Export</option>
+                  <option value="Industrial Automation">Industrial Automation</option>
+                  <option value="Industrial Equipment / Machinery">Industrial Equipment / Machinery</option>
+                  <option value="Insurance">Insurance</option>
+                  <option value="Internet">Internet</option>
+                  <option value="Investment Banking / Venture Capital / Priva">Investment Banking / Venture Capital / Private Equity</option>
+                  <option value="Iron and Steel">Iron and Steel</option>
+                  <option value="IT Services and Consulting">IT Services and Consulting</option>
+                  <option value="Law Enforcement / Security Services">Law Enforcement / Security Services</option>
+                  <option value="Leather">Leather</option>
+                  <option value="Legal">Legal</option>
+                  <option value="Management Consulting">Management Consulting</option>
+                  <option value="Medical Devices and Equipment">Medical Devices and Equipment</option>
+                  <option value="Medical Services / Hospital">Medical Services / Hospital</option>
+                  <option value="Metals and Mining">Metals and Mining</option>
+                  <option value="Miscellaneous">Miscellaneous</option>
+                  <option value="NBFC">NBFC</option>
+                  <option value="NGO / Social Services / Industry Associations">NGO / Social Services / Industry Associations</option>
+                  <option value="Oil and Gas">Oil and Gas</option>
+                  <option value="Packaging and Containers">Packaging and Containers</option>
+                  <option value="Petrochemical / Plastics / Rubber">Petrochemical / Plastics / Rubber</option>
+                  <option value="Pharmaceutical and Life Sciences">Pharmaceutical and Life Sciences</option>
+                  <option value="Ports and Shipping">Ports and Shipping</option>
+                  <option value="Power">Power</option>
+                  <option value="Printing and Publishing">Printing and Publishing</option>
+                  <option value="Pulp and Paper">Pulp and Paper</option>
+                  <option value="Railways">Railways</option>
+                  <option value="Real Estate">Real Estate</option>
+                  <option value="Recruitment / Staffing">Recruitment / Staffing</option>
+                  <option value="Retail">Retail</option>
+                  <option value="Software Product">Software Product</option>
+                  <option value="Sports / Leisure and Recreation">Sports / Leisure and Recreation</option>
+                  <option value="Telecom / ISP">Telecom / ISP</option>
+                  <option value="Textile and Apparel">Textile and Apparel</option>
+                  <option value="Travel and Tourism">Travel and Tourism</option>
+                  <option value="TV / Radio">TV / Radio</option>
+                  <option value="Urban Transport">Urban Transport</option>
+                  <option value="Water Treatment / Waste Management">Water Treatment / Waste Management</option>
+
 
 
             </select></Col>
@@ -427,241 +483,60 @@ function FormCSV() {
                 {/* <Col><label style={{textAlign: 'right'}}>Functional <br/> Area:</label></Col> */}
             {/* <Col><input type="text" name="functionalArea" value={formData.functionalArea} onChange={handleConstantFieldChange} style={{width: '170px'}}/></Col> */}
             <Col><select name="functionalArea" value={formData.functionalArea} onChange={handleConstantFieldChange} style={{width: '205px'}}>
-                <option value="" selected="selected" disabled="disabled">Select Functional Area</option>
-                <option value="Actor / Anchor">Actor / Anchor</option>
-                <option value="Actuarial Science">Actuarial Science</option>
-                <option value="Administration / Facility / Transport">Administration / Facility / Transport</option>
-                <option value="Administration / Front Office / Secretary">Administration / Front Office / Secretary</option>
-                <option value="Airport / Airline Ground Operations">Airport / Airline Ground Operations</option>
-                <option value="All - Administration / Front Office / Secretary">All - Administration / Front Office / Secretary</option>
-                <option value="All - Architecture / Interior Design">All - Architecture / Interior Design</option>
-                <option value="All - Certified Telecom Professionals">All - Certified Telecom Professionals</option>
-                <option value="All - Civil Services / Military / Police">All - Civil Services / Military / Police</option>
-                <option value="All - Customer Service / Back Office Operations">All - Customer Service / Back Office Operations</option>
-                <option value="All - Education / Training / Language">All - Education / Training / Language</option>
-                <option value="All - Engineering Design / Construction">All - Engineering Design / Construction</option>
-                <option value="All - Environment / Health / Safety">All - Environment / Health / Safety</option>
-                <option value="All - Finance / Accounts / Investment Banking">All - Finance / Accounts / Investment Banking</option>
-                <option value="All - Fresher (No Experience)">All - Fresher (No Experience)</option>
-                <option value="All - Graphic Design / Web Design / Copywriting">All - Graphic Design / Web Design / Copywriting</option>
-                <option value="All - Hotel / Restaurant">All - Hotel / Restaurant</option>
-                <option value="All - HR / Recruitment">All - HR / Recruitment</option>
-                <option value="All - IT - Hardware / Networking / Telecom Engineering">All - IT - Hardware / Networking / Telecom Engineering</option>
-                <option value="All - IT - Software">All - IT - Software</option>
-                <option value="All - Journalism / Content / Writing">All - Journalism / Content / Writing</option>
-                <option value="All - Legal / Company Secretary">All - Legal / Company Secretary</option>
-                <option value="All - Management Consulting / Strategy / EA">All - Management Consulting / Strategy / EA</option>
-                <option value="All - Marketing / Advertising / MR / PR / Events">All - Marketing / Advertising / MR / PR / Events</option>
-                <option value="All - Medical / Healthcare">All - Medical / Healthcare</option>
-                <option value="All - Oil & Gas Engineering / Mining / Geology">All - Oil & Gas Engineering / Mining / Geology</option>
-                <option value="All - Other">All - Other</option>
-                <option value="All - Production / Maintenance / Service">All - Production / Maintenance / Service</option>
-                <option value="All - Quality / Testing (QA-QC)">All - Quality / Testing (QA-QC)</option>
-                <option value="All - R&D / Product Design">All - R&D / Product Design</option>
-                <option value="All - Real Estate">All - Real Estate</option>
-                <option value="All - Retail / Export-Import / Trading">All - Retail / Export-Import / Trading</option>
-                <option value="All - Sales / BD">All - Sales / BD</option>
-                <option value="All - SBU Head / CEO / Director / Entrepreneur">All - SBU Head / CEO / Director / Entrepreneur</option>
-                <option value="All - Security / Detective Services">All - Security / Detective Services</option>
-                <option value="All - Statistics / Analytics / Actuarial Science">All - Statistics / Analytics / Actuarial Science</option>
-                <option value="All - Supply Chain / Purchase / Inventory">All - Supply Chain / Purchase / Inventory</option>
-                <option value="All - Travel / Aviation / Merchant Navy">All - Travel / Aviation / Merchant Navy</option>
-                <option value="All - TV / Film / Radio / Entertainment">All - TV / Film / Radio / Entertainment</option>
-                <option value="Allied Health Services">Allied Health Services</option>
-                <option value="Animal Husbandry">Animal Husbandry</option>
-                <option value="Application Programming / Maintenance">Application Programming / Maintenance</option>
-                <option value="Architecture">Architecture</option>
-                <option value="Architecture / Interior Design">Architecture / Interior Design</option>
-                <option value="Astrology">Astrology</option>
-                <option value="Audit">Audit</option>
-                <option value="Back Office Operations">Back Office Operations</option>
-                <option value="Beautician / Stylist">Beautician / Stylist</option>
-                <option value="Bio Tech / R&D / Scientist">Bio Tech / R&D / Scientist</option>
-                <option value="Cabin Crew">Cabin Crew</option>
-                <option value="Career / Education Counselling">Career / Education Counselling</option>
-                <option value="Certified Telecom Professionals">Certified Telecom Professionals</option>
-                <option value="Cinematography">Cinematography</option>
-                <option value="Civil Services">Civil Services</option>
-                <option value="Civil Services / Military / Police">Civil Services / Military / Police</option>
-                <option value="Client Server">Client Server</option>
-                <option value="Company Secretary">Company Secretary</option>
-                <option value="Content Development">Content Development</option>
-                <option value="Copywriting">Copywriting</option>
-                <option value="Corporate Legal Department">Corporate Legal Department</option>
-                <option value="Curriculum Design">Curriculum Design</option>
-                <option value="Customer Care Executive">Customer Care Executive</option>
-                <option value="Customer Care Executive (Call Centre)">Customer Care Executive (Call Centre)</option>
-                <option value="Customer Care Executive (Rel Centre)">Customer Care Executive (Rel Centre)</option>
-                <option value="Customer Care Executive (Repair Center)">Customer Care Executive (Repair Center)</option>
-                <option value="Customer Service (Domestic)">Customer Service (Domestic)</option>
-                <option value="Customer Service (International)">Customer Service (International)</option>
-                <option value="Customer Service / Back Office Operations">Customer Service / Back Office Operations</option>
-                <option value="Data Entry">Data Entry</option>
-                <option value="DBA / Data Warehousing">DBA / Data Warehousing</option>
-                <option value="Detective Services">Detective Services</option>
-                <option value="Direction / Editing">Direction / Editing</option>
-                <option value="Distributor Sales Rep">Distributor Sales Rep</option>
-                <option value="Doctor">Doctor</option>
-                <option value="Documentation / Shipping">Documentation / Shipping</option>
-                <option value="Education / Training / Language">Education / Training / Language</option>
-                <option value="Education Management / Director / Principal">Education Management / Director / Principal</option>
-                <option value="Embedded / System Software">Embedded / System Software</option>
-                <option value="Embedded, VLSI">Embedded, VLSI</option>
-                <option value="Engineering Design / Construction">Engineering Design / Construction</option>
-                <option value="Engineering Design / Construction">Engineering Design / Construction</option>
-                <option value="Entrepreneur">Entrepreneur</option>
-                <option value="Environment">Environment</option>
-                <option value="Environment / Health / Safety">Environment / Health / Safety</option>
-                <option value="Equity Research">Equity Research</option>
-                <option value="ERP / CRM">ERP / CRM</option>
-                <option value="Event Management">Event Management</option>
-                <option value="Executive Assistant (EA)">Executive Assistant (EA)</option>
-                <option value="F&B Service">F&B Service</option>
-                <option value="Fashion / Textile Design">Fashion / Textile Design</option>
-                <option value="Fashion Modelling">Fashion Modelling</option>
-                <option value="Field Sales Executive">Field Sales Executive</option>
-                <option value="Finance / Accounts / Investment Banking">Finance / Accounts / Investment Banking</option>
-                <option value="Finance / Accounts / Tax">Finance / Accounts / Tax</option>
-                <option value="Fire Prevention / Control">Fire Prevention / Control</option>
-                <option value="Fresher (No Experience)">Fresher (No Experience)</option>
-                <option value="Fresher (No Experience)">Fresher (No Experience)</option>
-                <option value="Front Office / Guest Relations">Front Office / Guest Relations</option>
-                <option value="Front Office / Receptionist">Front Office / Receptionist</option>
-                <option value="General / Operations Management">General / Operations Management</option>
-                <option value="General / Other Software">General / Other Software</option>
-                <option value="Geology">Geology</option>
-                <option value="Graphic Design">Graphic Design</option>
-                <option value="Graphic Design / Web Design / Copywriting">Graphic Design / Web Design / Copywriting</option>
-                <option value="Handset Repair Engineer">Handset Repair Engineer</option>
-                <option value="Hardware / Telecom Equipment Design">Hardware / Telecom Equipment Design</option>
-                <option value="Hospital Management / Director">Hospital Management / Director</option>
-                <option value="Hotel / Restaurant">Hotel / Restaurant</option>
-                <option value="Housekeeping">Housekeeping</option>
-                <option value="HR">HR</option>
-                <option value="HR / Recruitment">HR / Recruitment</option>
-                <option value="In-Store Promoter">In-Store Promoter</option>
-                <option value="Interior Design">Interior Design</option>
-                <option value="Internet Marketing">Internet Marketing</option>
-                <option value="Inventory / Warehousing">Inventory / Warehousing</option>
-                <option value="Investment Banking / M&A">Investment Banking / M&A</option>
-                <option value="IT - Hardware / Networking / Telecom Engineering">IT - Hardware / Networking / Telecom Engineering</option>
-                <option value="IT - Software">IT - Software</option>
-                <option value="IT Operations / EDP / MIS">IT Operations / EDP / MIS</option>
-                <option value="Journalism / Content / Writing">Journalism / Content / Writing</option>
-                <option value="Journalism / Writing">Journalism / Writing</option>
-                <option value="Kitchen">Kitchen</option>
-                <option value="Language / Translation">Language / Translation</option>
-                <option value="Legal / Company Secretary">Legal / Company Secretary</option>
-                <option value="Legal Practice">Legal Practice</option>
-                <option value="Legal Support Services">Legal Support Services</option>
-                <option value="Liaison">Liaison</option>
-                <option value="Library Management">Library Management</option>
-                <option value="Mainframe">Mainframe</option>
-                <option value="Maintenance">Maintenance</option>
-                <option value="Management Consulting / Strategy">Management Consulting / Strategy</option>
-                <option value="Management Consulting / Strategy / EA">Management Consulting / Strategy / EA</option>
-                <option value="Marine Deck Department">Marine Deck Department</option>
-                <option value="Marine Engineering Department">Marine Engineering Department</option>
-                <option value="Marine Service / Steward Department">Marine Service / Steward Department</option>
-                <option value="Market Research (MR)">Market Research (MR)</option>
-                <option value="Marketing / Advertising / MR / PR / Events">Marketing / Advertising / MR / PR / Events</option>
-                <option value="Marketing / Communication">Marketing / Communication</option>
-                <option value="Matrimony">Matrimony</option>
-                <option value="Media Planning / Buying">Media Planning / Buying</option>
-                <option value="Medical / Healthcare">Medical / Healthcare</option>
-                <option value="Medical Transcription">Medical Transcription</option>
-                <option value="Merchandising / Sourcing">Merchandising / Sourcing</option>
-                <option value="Middleware">Middleware</option>
-                <option value="Military">Military</option>
-                <option value="Mining">Mining</option>
-                <option value="Music">Music</option>
-                <option value="Network / System Administration">Network / System Administration</option>
-                <option value="Networking">Networking</option>
-                <option value="NGO / Social Work">NGO / Social Work</option>
-                <option value="Nursing">Nursing</option>
-                <option value="Occupational Health / Safety">Occupational Health / Safety</option>
-                <option value="Oil & Gas Engineering">Oil & Gas Engineering</option>
-                <option value="Oil & Gas Engineering / Mining / Geology">Oil & Gas Engineering / Mining / Geology</option>
-                <option value="Operations Management / Process Analysis">Operations Management / Process Analysis</option>
-                <option value="Optical Fiber Splicer">Optical Fiber Splicer</option>
-                <option value="Optical Fibre Technician">Optical Fibre Technician</option>
-                <option value="Other">Other</option>
-                <option value="Others">Others</option>
-                <option value="Painting">Painting</option>
-                <option value="Pet Care / Breeding">Pet Care / Breeding</option>
-                <option value="Pharmacist / Medical Representative">Pharmacist / Medical Representative</option>
-                <option value="Photography">Photography</option>
-                <option value="Pilot">Pilot</option>
-                <option value="Plantation / Farming">Plantation / Farming</option>
-                <option value="Police">Police</option>
-                <option value="Politics">Politics</option>
-                <option value="Pre-Sales">Pre-Sales</option>
-                <option value="Pre-School / Day Care">Pre-School / Day Care</option>
-                <option value="Process Control">Process Control</option>
-                <option value="Product Management">Product Management</option>
-                <option value="Product Marketing">Product Marketing</option>
-                <option value="Production">Production</option>
-                <option value="Production">Production</option>
-                <option value="Production / Maintenance / Service">Production / Maintenance / Service</option>
-                <option value="Production Design / Art">Production Design / Art</option>
-                <option value="Professional / Soft Skills Training">Professional / Soft Skills Training</option>
-                <option value="Professor / Lecturer">Professor / Lecturer</option>
-                <option value="Programming / Scheduling">Programming / Scheduling</option>
-                <option value="Property Management">Property Management</option>
-                <option value="Public Relations (PR)">Public Relations (PR)</option>
-                <option value="Purchase">Purchase</option>
-                <option value="Quality (QA-QC)">Quality (QA-QC)</option>
-                <option value="Quality / Testing (QA-QC)">Quality / Testing (QA-QC)</option>
-                <option value="R&D / Product Design">R&D / Product Design</option>
-                <option value="R&D / Product Design">R&D / Product Design</option>
-                <option value="Real Estate">Real Estate</option>
-                <option value="Real Estate Consultant / Agent">Real Estate Consultant / Agent</option>
-                <option value="Recruitment">Recruitment</option>
-                <option value="Religion / Spirituality">Religion / Spirituality</option>
-                <option value="Reservation / Ticketing">Reservation / Ticketing</option>
-                <option value="Retail / Export-Import / Trading">Retail / Export-Import / Trading</option>
-                <option value="Risk / Underwriting">Risk / Underwriting</option>
-                <option value="Sales / BD">Sales / BD</option>
-                <option value="Sales / BD">Sales / BD</option>
-                <option value="Sales Executive (Broadband)">Sales Executive (Broadband)</option>
-                <option value="Sales Support / MIS">Sales Support / MIS</option>
-                <option value="SBU Head / CEO / Director">SBU Head / CEO / Director</option>
-                <option value="SBU Head / CEO / Director / Entrepreneur">SBU Head / CEO / Director / Entrepreneur</option>
-                <option value="Script / Screenplay">Script / Screenplay</option>
-                <option value="Sculpture / Craft">Sculpture / Craft</option>
-                <option value="Secretary / PA / Steno">Secretary / PA / Steno</option>
-                <option value="Sector / Business Research">Sector / Business Research</option>
-                <option value="Securities Trading">Securities Trading</option>
-                <option value="Security / Detective Services">Security / Detective Services</option>
-                <option value="Security Services">Security Services</option>
-                <option value="Self Employed / Freelancer">Self Employed / Freelancer</option>
-                <option value="Service / Installation / Repair">Service / Installation / Repair</option>
-                <option value="Site Engineering / Project Management">Site Engineering / Project Management</option>
-                <option value="Sound Mixing / Editing">Sound Mixing / Editing</option>
-                <option value="Special Education">Special Education</option>
-                <option value="Sports / Fitness">Sports / Fitness</option>
-                <option value="Statistics / Analytics">Statistics / Analytics</option>
-                <option value="Statistics / Analytics / Actuarial Science">Statistics / Analytics / Actuarial Science</option>
-                <option value="Supply Chain / Logistics">Supply Chain / Logistics</option>
-                <option value="Supply Chain / Purchase / Inventory">Supply Chain / Purchase / Inventory</option>
-                <option value="Teacher / Tutor">Teacher / Tutor</option>
-                <option value="Teaching Assistant">Teaching Assistant</option>
-                <option value="Technical / Process Training">Technical / Process Training</option>
-                <option value="Technical Support / Helpdesk">Technical Support / Helpdesk</option>
-                <option value="Technical Writing">Technical Writing</option>
-                <option value="Telecom Network Design / Management">Telecom Network Design / Management</option>
-                <option value="Telecom Software">Telecom Software</option>
-                <option value="Testing">Testing</option>
-                <option value="Tour / Travel Guide">Tour / Travel Guide</option>
-                <option value="Tour / Travel Management">Tour / Travel Management</option>
-                <option value="Tower Technician">Tower Technician</option>
-                <option value="Training & Development">Training & Development</option>
-                <option value="Travel / Aviation / Merchant Navy">Travel / Aviation / Merchant Navy</option>
-                <option value="TV / Film / Radio / Entertainment">TV / Film / Radio / Entertainment</option>
-                <option value="Unskilled / Manual Labour">Unskilled / Manual Labour</option>
-                <option value="Visual Effects">Visual Effects</option>
-                <option value="Web / Mobile Technologies">Web / Mobile Technologies</option>
-                <option value="Web Design">Web Design</option>
+                {/* <option value="" selected="selected" disabled="disabled">Select Functional Area</option> */}
+                  <option value="0" style={{display: "none"}}>Select Functional Area</option>
+                  <option value="Administration and Facilities">Administration and Facilities</option>
+                  <option value="Aviation and Aerospace">Aviation and Aerospace</option>
+                  <option value="BFSI, Investments and Trading">BFSI, Investments and Trading</option>
+                  <option value="Construction and Site Engineering">Construction and Site Engineering</option>
+                  <option value="Consulting">Consulting</option>
+                  <option value="Content, Editorial and Journalism">Content, Editorial and Journalism</option>
+                  <option value="CSR and Social Service">CSR and Social Service</option>
+                  <option value="Customer Success, Service and Operations">Customer Success, Service and Operations</option>
+                  <option value="Data Science and Analytics">Data Science and Analytics</option>
+                  <option value="Energy and Mining">Energy and Mining</option>
+                  <option value="Engineering - Hardware and Networks">Engineering - Hardware and Networks</option>
+                  <option value="Engineering - Software and QA">Engineering - Software and QA</option>
+                  <option value="Environment Health and Safety">Environment Health and Safety</option>
+                  <option value="Finance and Accounting">Finance and Accounting</option>
+                  <option value="Food, Beverage and Hospitality">Food, Beverage and Hospitality</option>
+                  <option value="Healthcare and Life Sciences">Healthcare and Life Sciences</option>
+                  <option value="Human Resources">Human Resources</option>
+                  <option value="IT and Information Security">IT and Information Security</option>
+                  <option value="IT Software - Application Programme, Maintenance">IT Software - Application Programme, Maintenance</option>
+                  <option value="IT Software - Client / Server Programming">IT Software - Client / Server Programming</option>
+                  <option value="IT Software - DBA, Data warehousing">IT Software - DBA, Data warehousing</option>
+                  <option value="IT Software - eCommerce, Internet Technologies">IT Software - eCommerce, Internet Technologies</option>
+                  <option value="IT Software - Embed, EDA, VLSI, ASIC, Chip Design">IT Software - Embed, EDA, VLSI, ASIC, Chip Design</option>
+                  <option value="IT Software - ERP, CRM">IT Software - ERP, CRM</option>
+                  <option value="IT Software - Mainframe">IT Software - Mainframe</option>
+                  <option value="IT Software - Middleware">IT Software - Middleware</option>
+                  <option value="IT Software - Mobile">IT Software - Mobile</option>
+                  <option value="IT Software - Other">IT Software - Other</option>
+                  <option value="IT Software - QA and Testing">IT Software - QA and Testing</option>
+                  <option value="IT Software - System Programming">IT Software - System Programming</option>
+                  <option value="IT Software - Systems, EDP, MIS">IT Software - Systems, EDP, MIS</option>
+                  <option value="IT Software - Telecom Software">IT Software - Telecom Software</option>
+                  <option value="Legal and Regulatory">Legal and Regulatory</option>
+                  <option value="Marketing and Communication">Marketing and Communication</option>
+                  <option value="Media Production and Entertainment">Media Production and Entertainment</option>
+                  <option value="Merchandising, Retail and eCommerce">Merchandising, Retail and eCommerce</option>
+                  <option value="Other">Other</option>
+                  <option value="Packaging">Packaging</option>
+                  <option value="Procurement and Supply Chain">Procurement and Supply Chain</option>
+                  <option value="Product Management">Product Management</option>
+                  <option value="Production, Manufacturing and Engineering">Production, Manufacturing and Engineering</option>
+                  <option value="Project and Program Management">Project and Program Management</option>
+                  <option value="Quality Assurance">Quality Assurance</option>
+                  <option value="Research and Development">Research and Development</option>
+                  <option value="Risk Management and Compliance">Risk Management and Compliance</option>
+                  <option value="Sales and Business Development">Sales and Business Development</option>
+                  <option value="Security Services">Security Services</option>
+                  <option value="Shipping and Maritime">Shipping and Maritime</option>
+                  <option value="Sports, Fitness and Personal Care">Sports, Fitness and Personal Care</option>
+                  <option value="Strategic and Top Management">Strategic and Top Management</option>
+                  <option value="Teaching and Training">Teaching and Training</option>
+                  <option value="UX, Design and Architecture">UX, Design and Architecture</option>
 
                 
             </select></Col>
@@ -692,19 +567,19 @@ function FormCSV() {
             <Col> 
             <Row >*/}
             {/* <Col><label style={{textAlign: 'right'}}>Annual <br/> Salary:</label></Col> */}
-            <Col><input placeholder="Annual Salary" type="text" name="annualSalary" value={formData.annualSalary} onChange={handleConstantFieldChange} /></Col>
+            <Col><input placeholder="Annual Salary (eg: 100000)" type="text" name="annualSalary" value={formData.annualSalary} onChange={handleConstantFieldChange} /></Col>
             </Row>
             {/* </Col>
 
             <Col> */}
                 <Row sm={1} md={2}>
                 {/* <Col><label style={{textAlign: 'right'}}>Notice Period: <br/> (days)</label></Col> */}
-            <Col><input placeholder="Notice Period" type="text" name="noticePeriod" value={formData.noticePeriod} onChange={handleConstantFieldChange} /></Col>
+            <Col><input placeholder="Notice Period (in days)" type="text" name="noticePeriod" value={formData.noticePeriod} onChange={handleConstantFieldChange} /></Col>
             {/* </Row>
 
             <Row > */}
                 {/* <Col><label style={{textAlign: 'right'}}>Notice Period: <br/> (days)</label></Col> */}
-            <Col> <input style={{marginLeft: 10, display: "none"}} type="file" id="files" name="resume" onChange={handleFileChange} placeholder="upload your resume" accept=".doc,.pdf"/>
+            <Col> <input style={{marginLeft: 10, display: "none"}} type="file" id="files" name="resume" onChange={handleFileChange} placeholder="upload your resume" accept=".doc,.docx,.pdf"/>
             <button><label for="files">Upload Your Resume</label></button><p>{selectedName}</p>
             </Col>
             </Row>
@@ -726,7 +601,7 @@ function FormCSV() {
               <Col className="mx-auto">
                 <Row sm={1} md={2}>
                 {/* <Col><label style={{textAlign: 'right'}}>Experience: <br/> (in years)</label></Col> */}
-                <Col><input placeholder="Experience (in years)" type="text" name="experience" value={formData.experience} onChange={handleConstantFieldChange} /></Col>
+                <Col><input placeholder="Experience (in years)" type="number" name="experience" value={formData.experience} onChange={handleConstantFieldChange} /></Col>
                 {/* </Row>
                 </Col>
 
@@ -833,6 +708,7 @@ function FormCSV() {
         </div>
 
         </Container>
+        
 
      {/* </form> */}
      {/* </div> */}
@@ -842,10 +718,10 @@ function FormCSV() {
 {/* ----------------------------------------------------------------------------------------------------- */}
 
     <Navbar id="navbar1" classname="footernav">
-    <Container fluid style={{padding: '100px'}}>
+    <Container fluid id="bottomnavcontainer" style={{overflow: 'hidden'}}>
     <Row lg={1} xl={3} >
         <Col>
-          <Card className="border-0 mx-auto" style={{backgroundColor: '#02224d', width: '400px', marginLeft: '25px'}} >
+          <Card className="border-0 mx-auto" id="bottomnav" style={{backgroundColor: '#02224d'}} >
             {/* <Card.Img variant="top" src="img\Talentco-logo-01-removebg-preview.png" /> */}
             <Card.Body>
               {/* <Card.Title style={{color: "#ffffff"}}>Card title</Card.Title> */}
@@ -860,14 +736,14 @@ function FormCSV() {
         </Col>
 
         <Col>
-          <Card className="border-0 mx-auto" style={{backgroundColor: '#02224d', width: '400px', marginLeft: '25px'}}>
+          <Card className="border-0 mx-auto" id="bottomnav" style={{backgroundColor: '#02224d'}}>
             <Card.Body>
               <Card.Title style={{color: "#ffffff", fontSize: '30px', marginBottom: '30px'}}>Contact Us</Card.Title>
               <Card.Text style={{color: "#ffffff"}}>
                <a href="https://maps.app.goo.gl/YW4RxGDjGfZ99jqZ9" target="_blank" style={{textDecoration: 'none', color: '#ffffff'}}><FontAwesomeIcon style={{color: '#ffffff', marginRight: '10px' }} icon={faLocationDot} />
                 508, Ecstasy Business Park,
                 City of Joy, J.S.D Road,
-                Mulund West, Mumbai- 400080. </a>
+                Mulund West, Mumbai - 400080</a>
               <br/><br/>  <a href="tel:+91 77382 49852" style={{textDecoration: 'none', color: '#ffffff'}}><FontAwesomeIcon style={{color: '#ffffff', marginRight: '10px' }} icon={faHeadset} />+91 - 77382 - 49852</a>
               <br/><br/>  <a href="mailto:info@talentcohr.com" target="_blank" style={{textDecoration: 'none', color: '#ffffff'}}><FontAwesomeIcon style={{color: '#ffffff', marginRight: '10px' }} icon={regularEnvelope} />info@talentcohr.com</a>
               </Card.Text>
@@ -889,7 +765,7 @@ function FormCSV() {
         </Col>
 
         <Col>
-          <Card className="border-0 mx-auto" style={{backgroundColor: '#02224d', width: '400px', marginLeft: '25px'}}>
+          <Card className="border-0 mx-auto" id="bottomnav" style={{backgroundColor: '#02224d'}}>
             <Card.Body>
             <Card.Title style={{color: "#ffffff", fontSize: '30px', marginBottom: '30px'}}>Services</Card.Title>
               <Card.Text style={{color: "#ffffff", marginTop: '10px'}}>

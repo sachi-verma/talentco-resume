@@ -40,7 +40,7 @@ import LoginForm from './components/auth/LoginForm';
 import RegisterForm from './components/auth/RegisterForm';
 // import { getToken } from './services/authService';
 import ProtectedRoutes from './utils/ProtectedRoutes';
-import ProtectedRoute from './utils2/ProtectedRoute';
+import PrivateRoutes from './utils2/PrivateRoutes';
 import Resume from './components/dashboards/Resume';
 import UserForm from './components/dashboards/ResumeForm';
 import FormComponent from './components/dashboards/FormComponent';
@@ -53,6 +53,7 @@ import DjangoFilter from './components/dashboards/DjangoFilter';
 import CSVUploadForm from './components/dashboards/UploadCSV';
 import FormCSV from './components/dashboards/FormCSV'
 import LoginAuth from './components/auth/Login'
+import MultiFilter from './components/dashboards/MultiFilterServer'
 
 
 
@@ -68,8 +69,31 @@ const App = () => {
     <Container fluid className="bg-white p-0">
     <Router>
       <div>
-        <Routes>
-          {/* <Route path="/" element={<ResumeBuilder />}exact></Route> */}
+      <Routes>
+          <Route path="/" element={<GridExample />} />
+          <Route path="/multistepform" element={<MultiStepForm />} />
+          <Route path="/form" element={<FormCSV />}/>
+          <Route path="/upload" element={<CSVUploadForm />} />
+          {/* <Route element={<PrivateRoutes />}> */}
+
+          {/* ----------------------CORRECT LINKS------------------------------ 
+          <Route path="/" element={<FormCSV />} />
+          <Route path="/filter" element={<GridExample />} />
+          <Route path="/upload" element={<CSVUploadForm />} />*/}
+
+          {/* <Route path="/multi" element={<MultiFilter />} /> */}
+          {/* </Route> */}
+          <Route path="/login" element={<LoginAuth />} />
+      </Routes>
+      </div>
+    </Router>
+    </Container>
+  );
+};
+
+export default App;
+
+{/* <Route path="/" element={<ResumeBuilder />}exact></Route> */}
           {/* <Route path="/client-dashboard" element={<ClientDashboard />} />
           <Route path="/resume" element={<Resume />} />
           <Route path="/resumeform" element={<UserForm />} />
@@ -77,18 +101,16 @@ const App = () => {
           <Route path="/stepform" element={<StepForm />} />
           <Route path="/multistepform" element={<MultiStepForm />} />
           <Route path="/singlepageform" element={<SinglePageForm />} /> */}
-          <Route path="/filter" element={<GridExample />} />
+          
           {/* <Route path="/dynamicform" element={<DynamicForm />} />
           <Route path="/djangofilter" element={<DjangoFilter />} /> */}
-          <Route path="/upload" element={<CSVUploadForm />} />
-          <Route path="/" element={<FormCSV />} />
 
 
 
+          {/* <Route path="/filter" element={<GridExample />} />
+          <Route path="/upload" element={<CSVUploadForm />} /> */}
 
-
-
-          {/* <Route path="/admin-dashboard" element={<AdminDashboard />} />
+ {/* <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />  */}
           {/* <Navigate to="/login" /> */}
@@ -104,13 +126,3 @@ const App = () => {
                 <Route path="/upload" element={<CSVUploadForm />} role="admin" />
           </Route>
           <Route element={<LoginAuth />} path="/login"/> */}
-
-        </Routes>
-      </div>
-    </Router>
-    </Container>
-  );
-};
-
-export default App;
-

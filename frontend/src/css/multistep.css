@@ -31,6 +31,7 @@ box-shadow: rgba(6, 0, 63, 0.85) 0px 0px 20px;
     .html .body{
         overflow: hidden;
     }
+
   }
 
 #nav1header{
@@ -74,17 +75,17 @@ box-shadow: rgba(6, 0, 63, 0.85) 0px 0px 20px;
 
 @media only screen and (max-width: 991px){
   .navbar-collapse.collapse {
-    background-color: #e0e8f3;
+    background-color: #ffffff;
     border-radius: 10px;
   }
   
   .navbar-collapse.collapsing {
-    background-color: #e0e8f3;
+    background-color: #ffffff;
     border-radius: 10px;
   }
   
   .navbar-nav .dropdown-menu {
-    background-color: #e0e8f3;
+    background-color: #ffffff;
     border-radius: 10px;
   } 
 }
@@ -213,3 +214,29 @@ box-shadow: rgba(6, 0, 63, 0.85) 0px 0px 20px;
         width: 425px;
     }
   }
+
+#bottomnav {
+    margin-left: 25px;
+    width: 400px;
+}
+
+#bottomnavcontainer {
+    padding: 100px;
+}
+
+@media only screen and (max-width: 475px) {
+    #bottomnav {
+      margin-left: 0px;
+      width: 300px;
+    }
+
+    #bottomnavcontainer{
+        padding: 0px;
+    }
+  }
+
+  .ag-row .ag-cell{
+    justify-content: center;
+  }
+
+  

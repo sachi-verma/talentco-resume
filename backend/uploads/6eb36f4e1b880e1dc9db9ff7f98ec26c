@@ -1,4 +1,0 @@
-id,skills,summary,industry,current_location,experience,current_designation,ug_degree,ug_spl,pg_degree,pg_spl,name,func_area,current_company,preferred_location,annual_salary,notice_period,dob,age,marital_status,phone,email,gender,work_permit
-,php,summ1,hosp,mumbai,1,dev,be,comp,,,cand1,dev,tco,mumbai,300000,15,17-09-1985,39,unmarried,12345,email1@test.com,male,no
-,java,summ2,hr,pune,2,lead,btech,ecs,,,cand2,tech,tco,mumbai,500000,30,08-08-1998,26,single,78945,email2@test.com,female,no
-,python,summ3,it,bangalore,3,manager,be,ee,me,comp,cand3,it,tco,pune,700000,60,22-01-1991,33,married,65432,email3@test.com,female,yes

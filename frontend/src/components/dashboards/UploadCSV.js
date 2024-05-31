@@ -4,6 +4,9 @@ import { Container, Nav, Navbar, Card, Table } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 import { NavLink } from 'react-router-dom';
 import '../../css/multistep.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
+
 
 
 
@@ -71,7 +74,7 @@ const formatDate = (dateString) => {
   const hours = date.getHours().toString().padStart(2, '0');
   const minutes = date.getMinutes().toString().padStart(2, '0');
   const seconds = date.getSeconds().toString().padStart(2, '0');
-  return `${hours}:${minutes}:${seconds} <br/> ${day}/${month}/${year}`;
+  return `${hours}:${minutes}:${seconds} \n ${day}/${month}/${year}`;
 };
 
   const handleViewCSV = (filename) => {
@@ -104,7 +107,7 @@ const formatDate = (dateString) => {
             <img src="img/logo_small.png" alt="brand-logo" height="40" width="34" style={{marginRight: '10px'}}/>
             TalentCo Resume Management
           </Navbar.Brand>  
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />  
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" style={{ borderStyle: 'none', height: '30px'}}> <FontAwesomeIcon icon={faEllipsisVertical} style={{color: '#02224d', fontSize: '20px'}}/><FontAwesomeIcon icon={faEllipsisVertical} style={{color: '#02224d', fontSize: '20px'}}/><FontAwesomeIcon icon={faEllipsisVertical} style={{color: '#02224d', fontSize: '20px'}}/> </Navbar.Toggle>
           <Navbar.Collapse id="responsive-navbar-nav">  
             <Nav className="me-auto">  
               {/* <Nav.Link href="#features">Link 1</Nav.Link>  
@@ -147,8 +150,9 @@ const formatDate = (dateString) => {
             {csvList.map((csv, index) => (
               <tr key={index}>
                 <td>{csv.filename}</td>
-                {/* <td>{csv.uploaded_at}</td> */}
-                <td dangerouslySetInnerHTML={{ __html: csv.uploaded_at }}></td> {/* Use dangerouslySetInnerHTML to render HTML */}
+                <td>{csv.uploaded_at}</td>
+                {/* <td dangerouslySetInnerHTML={{ __html: csv.uploaded_at }}></td>  */}
+                {/* Use dangerouslySetInnerHTML to render HTML */}
                 <td>
                   {/* <button onClick={() => handleViewCSV(csv.filename)}>View</button> */}
                   <button style={{margin: '5px'}} onClick={() => handleDownloadCSV(csv.filename)}>Download</button>
